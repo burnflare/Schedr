@@ -1,1 +1,7 @@
 /deploy.log
+
+venv/
+.project
+*.pyc
+*.pyo
+*~
