@@ -1,0 +1,28 @@
+/*--splash page--*/
+.mainheader{padding:10% 0 !important;background-color:#283030;}
+.mainbody{margin:2% 0 !important;}
+body.mainsite{background-color:#546363;}
+.mainsite_header{color:rgba(250,250,250,1);font-weight:normal;}
+
+/*--inapp--*/
+.center{text-align:center;}
+.button{border:none;}
+
+.header{margin:5% 0 !important;}
+
+body.inapp{background-image:url('../img/bg.png');background-repeat: no-repeat;background-color:#283030;}
+.row{width:100%;margin:0px;}
+.col-sm-3{padding-right:0px;padding-left:0px;}
+
+.oneday{background-color:rgba(0, 0, 0, 0.4);margin:5px;padding:0px 0px 15px 0px;}
+h3.date{margin:15px 0px 10px 10px;color:white;font-weight:normal;}
+.timeslots{width:100%;}
+.timeslot{position:relative;float:left;width:40px;height:40px;margin:5px;background-color:rgba(0, 0, 0, 0);border:none;}
+.timeslot:hover{background-color:grey;}
+
+.timetext{position:relative;z-index:1;color:white;}
+.glyping{position:absolute;margin:-2px 0px 0px -10px;}
+.glyphicon-remove{color:#D9534F !important;}
+.glyphicon-ok{color:#5CB85C;}
+
+.foot{position:fixed;bottom:0px;left:0px;background-color:rgba(0, 0, 0, 0.4);padding:5px 0;z-index:2;}
