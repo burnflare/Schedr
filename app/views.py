@@ -1,10 +1,10 @@
 from app import app
+from flask import url_for, request, abort, session, redirect, escape
 
 @app.route('/')
-def check_if_logged_in():
-    if 'username' in session:
-        return 'Logged in as %s' % escape(session['username'])
-    return 'You are not logged in' 
+@app.route('/index')
+def index():
+    return app.send_static_file('templates/index.html')
 
 @app.route('/user/<username>')
 def profile(username):
