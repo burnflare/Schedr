@@ -9,6 +9,10 @@ body.mainsite{background-color:#546363;}
 .modal-footer{border-top:none;}
 .modal-body{color:white;}
 .datesec{margin:0px;}
+.TR{margin:5px 0;}
+.DR{margin: 2px;}
+.PLUS{margin:2px;}
+.plussign{margin:13px 10px;}
 
 /*--inapp--*/
 .center{text-align:center;}
