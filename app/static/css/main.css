@@ -4,6 +4,12 @@
 body.mainsite{background-color:#546363;}
 .mainsite_header{color:rgba(250,250,250,1);font-weight:normal;}
 
+/*--modal--*/
+.modal-content{background-color:#283030;}
+.modal-footer{border-top:none;}
+.modal-body{color:white;}
+.datesec{margin:0px;}
+
 /*--inapp--*/
 .center{text-align:center;}
 .button{border:none;}
