@@ -11,18 +11,25 @@ function updateDates() {
 	var month = moment().add('days',i).format('MMM').toUpperCase();
 	var date = moment().add('days',i).format('DD');
 	var dayofweek = moment().add('days',i).format('ddd').toUpperCase();
-	$('span.addDates').append('<button data-daterange="'+data+'" class="DR btn btn-xs btn-danger">'+dayofweek+'<h1 class="datesec">'+date+'</h1>'+month+' '+year+'</button>');
+	$('span.addDates').append('<button id="d'+a+'" data-daterange="'+data+'" class="DR btn btn-xs btn-danger">'+dayofweek+'<h1 class="datesec">'+date+'</h1>'+month+' '+year+'</button>');
 	};
+	$('button#d'+a+'').click(function() {
+		var B = this;
+		if ( $(B).hasClass('btn-danger') == true ) {
+			$(B).addClass('btn-success').removeClass('btn-danger');
+		} else {
+			$(B).addClass('btn-danger').removeClass('btn-success');
+		};
+	});
 	noofTimes = ++noofTimes;
-	activateButtons();
 };
 
 $('button.PLUS').click(function() {
 updateDates();
 });
 
-function activateButtons() {
-$("button.TR,button.DR").click(function() {
+
+$("button.TR").click(function() {
 	var a = this;
 	if ( $(a).hasClass('btn-danger') == true ) {
 		$(a).addClass('btn-success').removeClass('btn-danger');
@@ -30,6 +37,5 @@ $("button.TR,button.DR").click(function() {
 		$(a).addClass('btn-danger').removeClass('btn-success');
 	};
 });
-};
 
 });
