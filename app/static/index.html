@@ -18,7 +18,7 @@
 	<div class="col-lg-12 center">
 	<h1 class="mainsite_header">Automate your group meetings schedule</h1>
 	<h4 class="mainsite_header"><b>Schedr</b> helps schedule meeting based on each members' free time. Fast.</h4><br/>
-	<button class="btn btn-success btn-lg">Schedule meeting with Google+</button>
+	<button data-toggle="modal" href="#myModal" class="btn btn-success btn-lg">Schedule meeting now</button>
 	</div>
 	</div>
 	
@@ -63,9 +63,37 @@
 		<p class="mainsite_header" style="margin:0px;">Privacy policy | Schedr&copy; 2013</p>
 		</div>
 	</footer>
+	
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+		  <h3>Set meeting schedule</h3>
+		  <p>1. Event name: <input type="text"></p>
+		  <p>2. Select dates:</p>
+		  <button class="btn btn-success btn-xs"><span class="glyphicon glyphicon-remove"></span> SAT<h1 class="datesec">21</h1>SEP 2013</button>
+		  <p>3. Time range:</p>
+		  <div class="btn-group">
+		  <p><button class="btn btn-success btn-default"><span class="glyphicon glyphicon-remove"></span> 00:00 - 6:00</button>
+		  <button class="btn btn-success btn-default"><span class="glyphicon glyphicon-remove"></span> 06:00 - 12:00</button>
+		  <button class="btn btn-success btn-default"><span class="glyphicon glyphicon-remove"></span> 12:00 - 18:00</button>
+		  <button class="btn btn-success btn-default"><span class="glyphicon glyphicon-ok"></span> 18:00 - 24:00</button></p>
+		  </div>
+		  <p>4. Location: <input type="text"></p>
+		  <p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 
 	<!-- JS -->
-		<script data-main="js/main" src="js/require.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/moment.min.js"></script>
 </body>
 
 </html>
