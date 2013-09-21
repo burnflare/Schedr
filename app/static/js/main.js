@@ -1,5 +1,5 @@
 requirejs.config({
-  baseUrl: "/static/js/vendor",
+  baseUrl: "/js/vendor",
   paths: {
       "jquery": "//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min",
       "bootstrap" : "bootstrap.min",
