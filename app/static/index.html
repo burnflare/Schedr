@@ -72,25 +72,25 @@
 		
 		<div class="form-horizontal">
 		  <div class="form-group">
-			<label for="inputEvent" class="col-lg-2 control-label">Event:</label>
+			<label for="inputEvent" class="col-lg-2 control-label">Meeting name?</label>
 			<div class="col-lg-10">
-			  <input type="text" class="form-control" id="inputEvent" placeholder="Event name..">
+			  <input type="text" class="form-control" id="inputEvent" placeholder="Name your meeting!">
 			</div>
 		  </div>
 		  <div class="form-group">
-			<label for="inputLocation" class="col-lg-2 control-label">Venue:</label>
+			<label for="inputLocation" class="col-lg-2 control-label">Venue?</label>
 			<div class="col-lg-10">
-			  <input type="password" class="form-control" id="inputLocation" placeholder="Location..">
+			  <input type="test" class="form-control" id="inputLocation" placeholder="What is the meeting location?">
 			</div>
 		  </div>
 		  <div class="form-group">
-			<label for="inputLocation" class="col-lg-2 control-label">Dates:</label>
+			<label for="buttonsDate" class="col-lg-2 control-label">Preferred meeting dates?</label>
 			<div class="col-lg-10">
 				<span class="addDates"></span><button class="PLUS btn btn-default btn-warning"><h1 class="plussign">+</h1></button>
 			</div>
 		  </div>
 		  <div class="form-group">
-			<label for="inputLocation" class="col-lg-2 control-label">Time range:</label>
+			<label for="buttonsRange" class="col-lg-2 control-label">Preferred meeting timings?</label>
 			<div class="col-lg-10">
 				<button data-timerange="1" class="TR btn btn-default btn-danger">00:00 - 06:00</button>
 				<button data-timerange="2" class="TR btn btn-default btn-danger">06:00 - 12:00</button>
@@ -98,12 +98,24 @@
 				<button data-timerange="4" class="TR btn btn-default btn-danger">18:00 - 24:00</button>  
 			</div>
 		  </div>
+		  <div class="form-group">
+			<label for="selectLength" class="col-lg-2 control-label">Length of meeting?</label>
+			<div class="col-lg-10">
+			  <select class="LM form-control">
+			  <option>1 hour</option>
+			  <option>2 hours</option>
+			  <option>3 hours</option>
+			  <option>4 hours</option>
+			  <option>5 hours</option>
+			  </select>
+			</div>
+		  </div>
 		</div>
 		
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-		  <button type="button" class="btn btn-success"><b>Go</b></button>
+		  <button type="button" class="inviteMates btn btn-success"><b>Next: Invite mates</b></button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

@@ -38,4 +38,18 @@ $("button.TR").click(function() {
 	};
 });
 
+$('button.inviteMates').click(function() {
+	$('.form-horizontal').fadeOut().empty().fadeIn().append('<span class="matesEmails"><div class="form-group"><label for="mate1" class="col-lg-2 control-label">Mate #1 email?</label><div class="col-lg-10"><input type="email" class="form-control" id="mate1" placeholder="Enter email.."></div></div></span><div class="addMatesbtn center"><button type="button" class="addMates btn btn-success btn-lg"><b>+</b></button></div>');
+	$('button.inviteMates').empty().append('<b>Sign in with Google</b>').addClass('googleLogin').removeClass('inviteMates');
+	addMates();
+});
+
+var matesCount = 1;
+function addMates() {
+$('button.addMates').click(function() {
+	matesCount = ++matesCount;
+	$('.matesEmails').append('<div class="form-group"><label for="mate'+matesCount+'" class="col-lg-2 control-label">Mate #'+matesCount+' email?</label><div class="col-lg-10"><input type="email" class="form-control" id="mate'+matesCount+'" placeholder="Enter email.."></div></div>');
+});
+}
+
 });
