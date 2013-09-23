@@ -40,7 +40,8 @@ $("button.TR").click(function() {
 
 $('button.inviteMates').click(function() {
 	$('.form-horizontal').fadeOut().empty().fadeIn().append('<span class="matesEmails"><div class="form-group"><label for="mate1" class="col-lg-2 control-label">Member #1 email?</label><div class="col-lg-10"><input type="email" class="form-control" id="mate1" placeholder="Enter email.."></div></div></span><div class="addMatesbtn center"><button type="button" class="addMates btn btn-success btn-lg"><b>+</b></button></div>');
-	$('button.inviteMates').empty().append('<b>Sign in with Google</b>').addClass('googleLogin').removeClass('inviteMates');
+	googleLogin();
+	$('span.googlelogin').empty().append('<span id="signinButton"><span class="g-signin" data-callback="signinCallback" data-clientid="875376181351.apps.googleusercontent.com" data-cookiepolicy="single_host_origin" data-requestvisibleactions="http://schemas.google.com/AddActivity" data-scope="https://www.googleapis.com/auth/plus.login"></span></span>');
 	addMates();
 });
 
@@ -50,6 +51,14 @@ $('button.addMates').click(function() {
 	matesCount = ++matesCount;
 	$('.matesEmails').append('<div class="form-group"><label for="mate'+matesCount+'" class="col-lg-2 control-label">Member #'+matesCount+' email?</label><div class="col-lg-10"><input type="email" class="form-control" id="mate'+matesCount+'" placeholder="Enter email.."></div></div>');
 });
-}
+};
+
+function googleLogin() {
+  (function() {
+   var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+   po.src = 'https://apis.google.com/js/client:plusone.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+ })();
+ };
 
 });
