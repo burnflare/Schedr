@@ -59,6 +59,20 @@ function googleLogin() {
    po.src = 'https://apis.google.com/js/client:plusone.js';
    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
  })();
- };
+ 
+ function signinCallback(authResult) {
+  if (authResult['access_token']) {
+    // Successfully authorized
+    // Hide the sign-in button now that the user is authorized, for example:
+    console.log('success');
+  } else if (authResult['error']) {
+    // There was an error.
+    // Possible error codes:
+    //   "access_denied" - User denied access to your app
+    //   "immediate_failed" - Could not automatically log in the user
+    // console.log('There was an error: ' + authResult['error']);
+  }
+};
+};
 
 });
