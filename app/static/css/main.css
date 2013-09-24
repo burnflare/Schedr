@@ -33,7 +33,7 @@ h3.date{margin:15px 0px 10px 10px;color:white;font-weight:normal;}
 .timeslot:hover{background-color:grey;}
 
 .timetext{position:relative;z-index:1;color:white;}
-.glyping{position:absolute;margin:-2px 0px 0px -10px;}
+.glyping{position:absolute;margin:-2px 0px 0px -14px;}
 .glyphicon-remove{color:#D9534F !important;}
 .glyphicon-ok{color:#5CB85C;}
 
