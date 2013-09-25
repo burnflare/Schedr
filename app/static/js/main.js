@@ -77,9 +77,10 @@ function googleLogin() {
    po.src = 'https://apis.google.com/js/client:plusone.js';
    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
  })();
- 
- var matesEmails = [];
- function signinCallback(authResult) {
+};
+
+var matesEmails = [];
+function signinCallback(authResult) {
   if (authResult['access_token']) {
     $.ajax({
 		  data: {recipients:matesEmails,name:meetingName,venue:meetingVenue,date:datesSelected,timeslot:TR}, 
@@ -98,7 +99,6 @@ function googleLogin() {
   } else if (authResult['error']) {
 	$('.form-horizontal').fadeOut().empty().append('There was an error, refresh the page and try again!');
   }
-};
 };
 
 });
