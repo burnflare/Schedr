@@ -1,7 +1,7 @@
 //User info APIs
 
 function getUserInfo(accessToken) {
-	var output = [];
+	var output = {};
 	$.ajax({
 		data: {
 			access_token: accessToken
@@ -31,11 +31,18 @@ function getUserInfo(accessToken) {
 
 //Calendar APIs
 
-function ISODateString(d) {
+function ISODateTimeString(d) {
 	function pad(n) {
 		return n < 10 ? '0' + n : n
 	}
 	return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()) + 'T' + pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds()) + 'Z'
+}
+
+function ISODateString(d) {
+	function pad(n) {
+		return n < 10 ? '0' + n : n
+	}
+	return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
 }
 
 function getCalendarEvents(accessToken, numberOfDays) {
@@ -69,30 +76,50 @@ function getEvents(accessToken, calendarId, numberOfDays) {
 		data: {
 			access_token: accessToken,
 			singleEvents: true,
-			timeMin: ISODateString(yesterday),
-			timeMax: ISODateString(futureDate)
+			timeMin: ISODateTimeString(yesterday),
+			timeMax: ISODateTimeString(futureDate)
 		},
 		type: "GET",
 		url: "https://www.googleapis.com/calendar/v3/calendars/" + calendarId + "/events",
 		async: false,
 		success: function(data) {
+			var output = [];
 			$.each(data['items'], function(index, item) {
-				console.log(item['start']['dateTime']);
+				output.push(new Date(item['start']['dateTime']));
 			});
+			generateOutputJSON(output, numberOfDays);
 		}
 	});
 }
 
-function generateOutputJSON() {
-	var output = [];
-	for (var i = 0; i < 10; i++) {
-		output[i]['date'] =
-		     output[i]['date'][i] || [];
-			 
+function generateOutputJSON(events, numberOfDays) {
+	var output = {};
+	for (var i = 0; i < numberOfDays; i++) {
 		var d = new Date();
 		d.setDate(d.getDate() - 1 + i);
-		output[i][date] = ISODateString(d);
-		output[i][time] = false;
+		// d.setTime(d.getTime() + d.getTimezoneOffset() * 60000)
+		d.setMinutes(0);
+		d.setSeconds(0);
+		var time = {};
+		for (var t = 0; t < 24; t++) {
+			d.setHours(t);
+			
+			var val = false;
+			for (var u = 0; u < events.length; u++) {
+				var diff = events[u].getTime() - d.getTime();
+				if (diff < 3599143 && diff > -3599143) {
+					// console.log(diff);
+					val = true;
+				}
+			}
+			
+			if (t<10) {
+				time["0" + t + "00"] = val;	
+			} else {
+				time[t + "00"] = val;
+			}
+		}
+		output[ISODateString(d)] = time;
 	}
-	return output;
+	console.log(output);
 }
