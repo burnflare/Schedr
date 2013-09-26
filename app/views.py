@@ -33,10 +33,16 @@ def manage_user_schedule():
 
 @app.route('/event/', methods=['POST']) #TODO: change to POST
 def save_event_details():
-    # event_data = json.loads(request.form['data'])
+    print 'hi'
+    #event_dict = json.loads(request.form)
+    pprint(request.data)
+    return 'a'
+    #pprint(request.json['date'])
+
+    #pprint(event_dict)
     # data = request.form.get('data')
     # ss = event_data['recipients']
-    event_dict = {
+    """event_dict = {
     "recipients" : "a@gmail.com,b@gmail.com,c@gmail.com",
     "name" : "group meeting",
     "venue" : "LT7A",
@@ -65,7 +71,7 @@ def save_event_details():
     newMeeting = Meetings(creator_id, event_recipients, event_name, event_venue, suggested_date, suggested_time, duration)
     db.session.add(newMeeting)
     db.session.commit()
-    return 'Post %r' % 'meeting added successfully'
+    return 'Post %r' % 'meeting added successfully'"""
 
 @app.route('/event/<int:user_id>')
 def get_event_details(user_id):

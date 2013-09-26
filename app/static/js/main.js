@@ -6,8 +6,9 @@ var matesCount = 1;var matesEmails = [];
  function signinCallback(authResult) {
   if (authResult['access_token']) {
     $.ajax({
-		  data: {recipients:matesEmails,name:meetingName,venue:meetingVenue,date:datesSelected,timeslot:TR}, 
-		  dataType: "json", 
+		  data: JSON.stringify({recipients:matesEmails,name:meetingName,venue:meetingVenue,date:datesSelected,timeslot:TR}), 
+		  dataType: "json",
+		  contentType: 'application/json', 
 		  type: "POST",
 		  url: "/event/",
 		  beforeSend : function (){
