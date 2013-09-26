@@ -28,43 +28,49 @@ def login():
 def manage_user_schedule():
     return 1
 
-@app.route('/event/', methods=['POST'])
-def save_event_details():
-    print 'hi'
-    event_dict = json.loads(request.data)
-
-    #TODO: use escape
+@app.route('/event/', methods=['GET', 'POST'])
+def process_event_details():
     if 'creator_id' in session:
         creator_id = session['creator_id']
     else:
         creator_id = 0
-    
-    event_recipients = ",".join(event_dict['recipients'])
-    event_name = event_dict['name']
-    event_venue = event_dict['venue']
-    suggested_date = ",".join(event_dict['date'])
-    suggested_time = ",".join(event_dict['timeslot'])
-    duration = 0 #TODO: event_dict['duration']
 
-    newMeeting = Meetings(creator_id, event_recipients, event_name, event_venue, suggested_date, suggested_time, duration)
-    db.session.add(newMeeting)
-    db.session.commit()
-    return 'Post %r' % 'meeting added successfully'
+    if request.method == 'POST':
+        event_dict = json.loads(request.data)
 
-@app.route('/event/<int:user_id>')
-def get_event_details(user_id):
-    event_details = {}
-    if user_id:
-        existing_meetings = Meetings.query.filter_by(creator_id = user_id).all()
-        for i in range(len(existing_meetings)):
-            event_details['meeting'+str(i)] = row2dict(existing_meetings[i])    
-        #pprint(existing_meetings[0].event_name)
-        pprint(event_details)
+        #TODO: use escape
+        event_recipients = ",".join(event_dict['recipients'])
+        event_name = event_dict['name']
+        event_venue = event_dict['venue']
+        suggested_date = ",".join(event_dict['date'])
+        suggested_time = ",".join(event_dict['timeslot'])
+        duration = 0 #TODO: event_dict['duration']
 
-        result = jsonify(event_list = event_details)
-        pprint(result)
+        newMeeting = Meetings(creator_id, event_recipients, event_name, event_venue, suggested_date, suggested_time, duration)
+        db.session.add(newMeeting)
+        db.session.commit()
+        return 'Post %r' % 'meeting added successfully'
 
-    return result
+    else:
+        if creator_id != 0:
+            event_details = {}
+            existing_meetings = Meetings.query.filter_by(creator_id = creator_id).all()
+            for i in range(len(existing_meetings)):
+                creator_id = existing_meetings[i].creator_id
+                creator = User.query.filter_by(user_id = creator_id).first()
+                f_name = creator.f_name
+                l_name = creator.l_name
+                full_name = f_name + " " + l_name
+                print full_name
+
+                event_details['meeting_'+str(i)] = row2dict(existing_meetings[i]) + full_name #TODO: think of a way to remove meeting0
+                #event_details = dict(row2dict(existing_meetings[i]).items())
+            #pprint(existing_meetings[0].event_name)
+            pprint(event_details)
+
+            result = jsonify(event_list = event_details)
+            pprint(result)
+            return result
 
 @app.route('/schedule', methods=['GET', 'POST'])
 def schedule():
