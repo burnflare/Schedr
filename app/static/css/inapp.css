@@ -1,24 +1,7 @@
-/*--splash page--*/
-.mainheader{padding:10% 0 !important;background-color:#283030;}
-.mainbody{margin:2% 0 !important;}
-body.mainsite{background-color:#546363;}
-.mainsite_header{color:rgba(250,250,250,1);font-weight:normal;}
-
-/*--modal--*/
-.modal-content{background-color:#283030;}
-.modal-footer{border-top:none;}
-.modal-body{color:white;}
-.datesec{margin:0px;}
-.TR{margin:5px 0;}
-.DR{margin: 2px;}
-.PLUS{margin:2px;}
-.plussign{margin:13px 10px;}
-
-.addMatesbtn{width:100%;}
-
 /*--inapp--*/
 .center{text-align:center;}
 .button{border:none;}
+.white{color:white !important; margin:0px;}
 
 .header{margin:5% 0 !important;}
 
@@ -37,4 +20,4 @@ h3.date{margin:15px 0px 10px 10px;color:white;font-weight:normal;}
 .glyphicon-remove{color:#D9534F !important;}
 .glyphicon-ok{color:#5CB85C;}
 
-.foot{position:fixed;bottom:0px;left:0px;background-color:rgba(0, 0, 0, 0.4);padding:5px 0;z-index:2;}
+.foot{position:fixed;width:100%;bottom:0px;left:0px;background-color:rgba(0, 0, 0, 0.4);padding:5px 0;z-index:2;}
