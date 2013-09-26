@@ -57,11 +57,11 @@ def get_event_details(user_id):
     if user_id:
         existing_meetings = Meetings.query.filter_by(creator_id = user_id).all()
         for i in range(len(existing_meetings)):
-            event_details[i] = row2dict(existing_meetings[i])    
+            event_details['meeting'+str(i)] = row2dict(existing_meetings[i])    
         #pprint(existing_meetings[0].event_name)
-        #pprint(event_details)
+        pprint(event_details)
 
-        result = jsonify(a = event_details)
+        result = jsonify(event_list = event_details)
         pprint(result)
 
     return result
