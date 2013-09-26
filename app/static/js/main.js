@@ -3,10 +3,11 @@ var meetingName;
 var meetingVenue;
 var datesSelected = [];
 var matesCount = 1;var matesEmails = [];
+var meetingDuration;
  function signinCallback(authResult) {
   if (authResult['access_token']) {
     $.ajax({
-		  data: {recipients:matesEmails,name:meetingName,venue:meetingVenue,date:datesSelected,timeslot:TR}, 
+		  data: {recipients:matesEmails,name:meetingName,venue:meetingVenue,date:datesSelected,timeslot:TR.duration:meetingDuration}, 
 		  dataType: "json", 
 		  type: "POST",
 		  url: "/event/",
@@ -75,6 +76,7 @@ $("button.TR").click(function() {
 $('button.inviteMates').on('mousedown',function() {
 	meetingName = $('input#inputEvent').val();
 	meetingVenue = $('input#inputLocation').val();
+	meetingDuration = $('select').val().charAt(0);
 });
 
 $('button.inviteMates').on('mouseup',function() {
