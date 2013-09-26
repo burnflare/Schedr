@@ -22,7 +22,7 @@ var meetingDuration;
 	});
     console.log('success');
   } else if (authResult['error']) {
-	$('.form-horizontal').fadeOut().empty().append('There was an error, refresh the page and try again!');
+	$('.form-horizontal').empty().append('There was an error, refresh the page and try again!');
   }
 };
 
