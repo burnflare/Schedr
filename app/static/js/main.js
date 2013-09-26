@@ -83,7 +83,7 @@ $('button.inviteMates').on('mousedown',function() {
 $('button.inviteMates').on('mouseup',function() {
 	$('.form-horizontal').fadeOut().empty().fadeIn().append('<span class="matesEmails"><div class="form-group"><label for="mate1" class="col-lg-2 control-label">Member #1 email?</label><div class="col-lg-10"><input type="email" class="form-control" id="mate1" placeholder="Enter email.."></div></div></span><div class="addMatesbtn center"><button type="button" class="addMates btn btn-success btn-lg"><b>+</b></button></div>');
 	googleLogin();
-	$('span.googlelogin').empty().append('<span id="signinButton"><span class="g-signin" data-callback="signinCallback" data-clientid="875376181351.apps.googleusercontent.com" data-cookiepolicy="single_host_origin" data-requestvisibleactions="http://schemas.google.com/AddActivity" data-scope="https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/calendar.readonly"></span></span>');
+	$('span.googlelogin').empty().append('<span id="signinButton"><span class="g-signin" data-callback="signinCallback" data-clientid="875376181351.apps.googleusercontent.com" data-cookiepolicy="single_host_origin" data-requestvisibleactions="http://schemas.google.com/AddActivity" data-scope="https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/calendar.readonly"></span></span>');
 	addMates();
 });
 
