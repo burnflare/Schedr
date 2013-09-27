@@ -6,3 +6,5 @@ venv/
 *.pyc
 *.pyo
 *~
+run.py
+app/__init__.py
