@@ -22,7 +22,7 @@ var matesCount = 1;var matesEmails = [];
 		  type: "POST",
 		  url: "/event/",
 		  beforeSend : function (){
-               for (var i=0;i<=matesCount;++i) {
+               for (var i=1;i<=matesCount;++i) {
 					matesEmails.push($('input#mate'+i+'').val());
 			   };
           },
