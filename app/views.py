@@ -2,6 +2,7 @@ from app import app, db
 from flask import url_for, request, abort, session, redirect, escape, render_template, jsonify, json
 from pprint import pprint
 from models import User, Meetings
+import csv
 
 @app.route('/')
 @app.route('/index')
@@ -63,6 +64,42 @@ def process_event_details():
         #session['meeting_id'] = newMeeting.meetings_id
         return 'Post meeting added successfully'
     return 'Please login successfully'
+
+
+@app.route('/admin/', methods=['GET'])
+def get_admin_details():
+    if 'creator_id' in session:
+        creator_id = session['creator_id']
+    else:
+        creator_id = 0
+
+    creator_id = 3 #TODO: comment this off
+    count = 0
+    event_details = {}
+    if creator_id:
+        #existing_meetings = Meetings.query.filter_by(creator_id = creator_id).all()
+        existing_meetings = Meetings.query.all()
+        for i in range(len(existing_meetings)):
+            db_creator_id = existing_meetings[i].creator_id
+            if db_creator_id == creator_id:
+                event_details['meeting' + str(count)] = row2dict(existing_meetings[i])
+                count = count + 1
+                continue
+
+            db_event_recipients = existing_meetings[i].event_recipients
+            db_event_recipients_list = db_event_recipients.split(',')
+            for j in db_event_recipients_list:
+                user_id_in_recipient = User.query.filter_by(email = j).first()
+                if user_id_in_recipient is not None:
+                    db_user_id = user_id_in_recipient.user_id
+                    if db_user_id == creator_id:
+                        event_details['meeting' + str(count)] = row2dict(existing_meetings[i])
+                        count = count + 1
+                        continue
+        #pprint(existing_meetings[0].event_name)
+    result = jsonify(event_list = event_details)
+    return result
+
 
 @app.route('/schedule/', methods=['GET', 'POST'])
 def manage_user_schedule():
