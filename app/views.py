@@ -104,16 +104,43 @@ def get_admin_details():
 
 @app.route('/schedule/', methods=['GET', 'POST'])
 def manage_user_schedule():
-    if request.method == 'POST':
-        session['username']=request.form['username']
-        return redirect(url_for('check_if_logged_in'))
+    if 'creator_id' in session:
+        creator_id = session['creator_id']
     else:
-        return '''
-        <form action="" method="post">
-            <p><input type=text name=username>
-            <p><input type=submit value=Login>
-        </form>
-        '''
+        creator_id = 0
+    if creator_id != 0:
+        if request.method == 'POST':
+            request_date = """{
+    "2013-09-20": {
+        "0000": 0, 
+        "0100": 0, 
+        "0200": 0, 
+        "0300": 0, 
+        "0400": 0, 
+        "0500": 0, 
+        "0600": 0, 
+        "0700": 0, 
+        "0800": 0, 
+        "0900": 0, 
+        "1000": 0, 
+        "1100": 0, 
+        "1200": 0, 
+        "1300": 1, 
+        "1400": 1, 
+        "1500": 0, 
+        "1600": 0, 
+        "1700": 1, 
+        "1800": 1, 
+        "1900": 0, 
+        "2000": 0, 
+        "2100": 1, 
+        "2200": 1, 
+        "2300": 0
+    } } """
+            meeting_schedule = json.loads(request.data)
+            for i in range(len(meeting_schedule)):
+                pprint(meeting_schedule[i])
+
 
 @app.route('/logout')
 def logout():
@@ -137,7 +164,7 @@ def row2dict(row):
     d = {}
     for column in row.__table__.columns:
         #if column.name is 'event_recipients':
-        #    d[column.name] = row.event_recipients.split(',')        
+        #loc    d[column.name] = row.event_recipients.split(',')        
             #continue
         d[column.name] = getattr(row, column.name)
         
