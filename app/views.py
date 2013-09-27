@@ -18,7 +18,7 @@ def email():
     msg.body = "hello world"
     msg.html = "<b>testing</b>"
     mail.send(msg)
-    return 'hello'
+    return 'a'
 
 
 @app.route('/login/', methods=['POST'])
