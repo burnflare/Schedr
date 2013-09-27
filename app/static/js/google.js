@@ -44,19 +44,19 @@ function ISODateString(d) {
 	return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
 }
 
-function dateDiff(dateEarlier, dateLater) {
+function dateDifference(dateEarlier, dateLater) {
     var one_day=1000*60*60*24
     return (Math.round((dateLater.getTime()-dateEarlier.getTime())/one_day));
 }
 
-function getCalendarEvents(accessToken, startDate, endDate) {
+function getCalendarEvents(accessToken, startDate, endDate, callback) {
 	var startD = new Date(startDate);
 	var endD = new Date(endDate);
-	var numberOfDays = dateDiff(startD, endD) + 1;
-	getPrimaryCalendar(accessToken, startD, numberOfDays);
+	var numberOfDays = dateDifference(startD, endD) + 1;
+	getPrimaryCalendar(accessToken, startD, numberOfDays, callback);
 }
 
-function getPrimaryCalendar(accessToken, startDate, numberOfDays) {
+function getPrimaryCalendar(accessToken, startDate, numberOfDays, callback) {
 	$.ajax({
 		data: {
 			access_token: accessToken
@@ -67,14 +67,14 @@ function getPrimaryCalendar(accessToken, startDate, numberOfDays) {
 		success: function(data) {
 			$.each(data['items'], function(index, item) {
 				if (item['primary'] == true) {
-					getEvents(accessToken, item['id'], startDate, numberOfDays);
+					getEvents(accessToken, item['id'], startDate, numberOfDays, callback);
 				}
 			});
 		}
 	});
 }
 
-function getEvents(accessToken, calendarId, startDate, numberOfDays) {
+function getEvents(accessToken, calendarId, startDate, numberOfDays, callback) {
 	var futureDate = new Date();
 	futureDate.setDate(startDate.getDate() + numberOfDays);
 	$.ajax({
@@ -92,17 +92,16 @@ function getEvents(accessToken, calendarId, startDate, numberOfDays) {
 			$.each(data['items'], function(index, item) {
 				output.push(new Date(item['start']['dateTime']));
 			});
-			generateOutputJSON(output, startDate, numberOfDays);
+			generateOutputJSON(output, startDate, numberOfDays, callback);
 		}
 	});
 }
 
-function generateOutputJSON(events, startDate, numberOfDays) {
+function generateOutputJSON(events, startDate, numberOfDays, callback) {
 	var output = {};
 	for (var i = 0; i < numberOfDays; i++) {
 		var d = new Date();
 		d.setDate(startDate.getDate() + i);
-		// d.setTime(d.getTime() + d.getTimezoneOffset() * 60000)
 		d.setMinutes(0);
 		d.setSeconds(0);
 		var time = {};
@@ -113,7 +112,6 @@ function generateOutputJSON(events, startDate, numberOfDays) {
 			for (var u = 0; u < events.length; u++) {
 				var diff = events[u].getTime() - d.getTime();
 				if (diff < 3599143 && diff > -3599143) {
-					// console.log(diff);
 					val = true;
 				}
 			}
@@ -126,5 +124,5 @@ function generateOutputJSON(events, startDate, numberOfDays) {
 		}
 		output[ISODateString(d)] = time;
 	}
-	console.log(output);
+	callback(JSON.stringify(output));
 }
