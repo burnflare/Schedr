@@ -8,3 +8,4 @@ venv/
 *~
 app/__init__.py
 run.py
+nohup.out
