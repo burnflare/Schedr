@@ -79,7 +79,6 @@ function functionClicks() {
 $('button.submit').click(function() {
 	$.ajax({
 			  data: JSON.stringify({selected_timings:selectedTimeslots}),
-			  dataType: "json",
 			  contentType: 'application/json', 
 			  type: "POST",
 			  url: "/schedule/"+meeting_id+"",
