@@ -12,6 +12,7 @@ def index():
 @app.route('/login/', methods=['POST'])
 def login():
     #is_successful, f_name, l_name, email = call_google_oauth()
+    pprint('hiiiii' + request.data)
     google_ouath_dict = json.loads(request.data)
     f_name = google_ouath_dict['fname']
     l_name = google_ouath_dict['lname']
@@ -73,7 +74,7 @@ def get_admin_details():
     else:
         creator_id = 0
 
-    creator_id = 3 #TODO: comment this off
+    creator_id = 18 #TODO: comment this off
     count = 0
     event_details = {}
     if creator_id:
@@ -82,7 +83,7 @@ def get_admin_details():
         for i in range(len(existing_meetings)):
             db_creator_id = existing_meetings[i].creator_id
             if db_creator_id == creator_id:
-                event_details['meeting' + str(count)] = row2dict(existing_meetings[i])
+                event_details['meeting_' + str(count)] = row2dict(existing_meetings[i])
                 count = count + 1
                 continue
 
@@ -93,7 +94,7 @@ def get_admin_details():
                 if user_id_in_recipient is not None:
                     db_user_id = user_id_in_recipient.user_id
                     if db_user_id == creator_id:
-                        event_details['meeting' + str(count)] = row2dict(existing_meetings[i])
+                        event_details['meeting_' + str(count)] = row2dict(existing_meetings[i])
                         count = count + 1
                         continue
         #pprint(existing_meetings[0].event_name)
