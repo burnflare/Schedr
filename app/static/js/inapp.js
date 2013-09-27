@@ -24,7 +24,7 @@ var split = location.search.replace('?', '').split('=');
 			$('.meetingName').text(event_name);
 			$('.meetingVenue').text(event_venue);
 			$('.meetingTime').text(duration);
-			if (json.current_meeting.finalized_time != null) {
+			if (json.current_meeting.finalized_time != "") {
 			} else {
 				var a = suggested_date.length;
 				for (var i=0;i<a;++i) {
