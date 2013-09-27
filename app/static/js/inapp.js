@@ -84,7 +84,9 @@ $('button.submit').click(function() {
 			  type: "POST",
 			  url: "/schedule/"+meeting_id+"",
 		  }).done(function() {
-			  console.log("Login success");
+			   $('div.row').empty();
+			   $('div.foot').empty();
+			   $('span.ty').fadeOut().empty().append("<h1>Thank you</h1><h4>We will auto-generate the best timeslot and send it to your email inbox when all members have indicated. Have a nice day!</h4>").fadeIn();
 	});
 });
 	
