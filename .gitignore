@@ -7,3 +7,4 @@ venv/
 *.pyo
 *~
 app/__init__.py
+run.py
