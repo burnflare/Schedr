@@ -25,7 +25,7 @@ function getUserInfo(accessToken, callback) {
 			});
 		}
 	});
-	callback(JSON.stringify(output));
+	callback(output);
 }
 
 //Calendar APIs
