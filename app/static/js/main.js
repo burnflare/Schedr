@@ -90,6 +90,10 @@ $("button.TR").click(function() {
 });
 
 $('button.inviteMates').on('mousedown',function() {
+	if ($('input#inputEvent').val() == "" || $('input#inputLocation').val() == "") {
+		alert("Please fill up all the fields before continuing");
+		return;
+	}
 	meetingName = $('input#inputEvent').val();
 	meetingVenue = $('input#inputLocation').val();
 });
