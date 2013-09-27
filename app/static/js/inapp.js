@@ -12,6 +12,7 @@ var split = location.search.replace('?', '').split('=');
 		  type: "GET",
 		  url: "/specific_event/"+split[1]+"",
 		}).done(function(json) {
+			console.log('in done');
 			event_name = json.current_meeting.event_name;
 			event_venue = json.current_meeting.event_venue;
 			suggested_date = json.current_meeting.suggested_date.split(',');
@@ -21,7 +22,8 @@ var split = location.search.replace('?', '').split('=');
 			$('.meetingVenue').text(event_venue);
 			$('.meetingTime').text(duration);
 			
-			if (json.finalized_time == null) {
+			if (json.finalized_time != null) {
+				console.log('in done');
 			} else {
 				var a = ++suggested_date.length;
 				for (var i=0;i<a;++i) {

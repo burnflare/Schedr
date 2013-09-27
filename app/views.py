@@ -32,7 +32,7 @@ def login():
 
 
 @app.route('/specific_event/<int:meeting_id>', methods=['GET'])
-def get_event_details():
+def get_event_details(meeting_id):
     current_meeting = Meetings.query.filter_by(meetings_id = meeting_id).first()
     pprint(current_meeting.meetings_id)
     current_meeting_dict = row2dict(current_meeting)
@@ -109,35 +109,66 @@ def manage_user_schedule():
     else:
         creator_id = 0
     if creator_id != 0:
-        if request.method == 'POST':
-            request_date = """{
-    "2013-09-20": {
-        "0000": 0, 
-        "0100": 0, 
-        "0200": 0, 
-        "0300": 0, 
-        "0400": 0, 
-        "0500": 0, 
-        "0600": 0, 
-        "0700": 0, 
-        "0800": 0, 
-        "0900": 0, 
-        "1000": 0, 
-        "1100": 0, 
-        "1200": 0, 
-        "1300": 1, 
-        "1400": 1, 
-        "1500": 0, 
-        "1600": 0, 
-        "1700": 1, 
-        "1800": 1, 
-        "1900": 0, 
-        "2000": 0, 
-        "2100": 1, 
-        "2200": 1, 
-        "2300": 0
-    } } """
-        meeting_schedule = json.loads(request.date)
+        if request.method != 'POST': #change to ==
+            meeting_schedule = {
+                "2013-09-20": {
+                    "0000": 0, 
+                    "0100": 0, 
+                    "0200": 0, 
+                    "0300": 0, 
+                    "0400": 0, 
+                    "0500": 0, 
+                    "0600": 0, 
+                    "0700": 0, 
+                    "0800": 0, 
+                    "0900": 0, 
+                    "1000": 0, 
+                    "1100": 0, 
+                    "1200": 0, 
+                    "1300": 1, 
+                    "1400": 1, 
+                    "1500": 0, 
+                    "1600": 0, 
+                    "1700": 1, 
+                    "1800": 1, 
+                    "1900": 0, 
+                    "2000": 0, 
+                    "2100": 1, 
+                    "2200": 1, 
+                    "2300": 0
+                }, 
+                "2013-09-21": {
+                    "0000": 0, 
+                    "0100": 0, 
+                    "0200": 0, 
+                    "0300": 0, 
+                    "0400": 0, 
+                    "0500": 0, 
+                    "0600": 0, 
+                    "0700": 1, 
+                    "0800": 1, 
+                    "0900": 0, 
+                    "1000": 0, 
+                    "1100": 0, 
+                    "1200": 0, 
+                    "1300": 1, 
+                    "1400": 1, 
+                    "1500": 0, 
+                    "1600": 0, 
+                    "1700": 0, 
+                    "1800": 0, 
+                    "1900": 0, 
+                    "2000": 0, 
+                    "2100": 1, 
+                    "2200": 1, 
+                    "2300": 0
+                }
+            }
+
+
+
+
+        #meeting_schedule = json.loads(request.date)
         pprint(meeting_schedule)
         #for i in range(len(meeting_schedule)):
         #    pprint(meeting_schedule[i])
