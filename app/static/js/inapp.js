@@ -14,8 +14,8 @@ var split = location.search.replace('?', '').split('=');
 		}).done(function(json) {
 			event_name = json.current_meeting.event_name;
 			event_venue = json.current_meeting.event_venue;
-			suggested_date = json.current_meeting.suggested_date;
-			suggested_time = json.current_meeting.suggested_time;
+			suggested_date = json.current_meeting.suggested_date.split(',');
+			suggested_time = json.current_meeting.suggested_time.split(',');
 			duration = json.duration;
 			$('.meetingName').text(event_name);
 			$('.meetingVenue').text(event_venue);
@@ -26,7 +26,7 @@ var split = location.search.replace('?', '').split('=');
 				var a = ++suggested_date.length;
 				for (var i=0;i<a;++i) {
 					var b= moment(suggested_date[i], "YYYY-MM-DD").format('dddd, MMMM Do YYYY');
-					var c=suggested_date[i],
+					var c=suggested_date[i];
 					$('div.row').append('<div class="col-sm-3 oneday"><h3 class="date">'+b+'</h3><span id ="d'+i+'" data-date="'+suggested_date[i]+'" class="timeslots"></span></div>');
 					var timeslots = [];
 					var timeslot1 = [0000,0100,0200,0300,0400,0500];
