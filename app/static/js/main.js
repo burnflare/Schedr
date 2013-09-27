@@ -18,7 +18,7 @@ var meetingDuration;
 			   }
           }
 		}).done(function() {
-		  //go to /calender if success
+		  window.location = "almostthere.html";
 	});
     console.log('success');
   } else if (authResult['error']) {
