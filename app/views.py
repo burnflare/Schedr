@@ -1,13 +1,25 @@
-from app import app, db
+from app import app, db, mail, USERNAME, PASSWORD
 from flask import url_for, request, abort, session, redirect, escape, render_template, jsonify, json
 from pprint import pprint
 from models import User, Meetings, Schedule
+from flask.ext.mail import Message
 import csv
 
 @app.route('/')
 @app.route('/index')
 def index():
     return redirect(url_for('static', filename='index.html'))
+
+@app.route('/testing_email')
+def email():
+    msg = Message("Hello",
+                  sender=USERNAME,
+                  recipients=[USERNAME])
+    msg.body = "hello world"
+    msg.html = "<b>testing</b>"
+    mail.send(msg)
+    return 'hello'
+
 
 @app.route('/login/', methods=['POST'])
 def login():
@@ -57,7 +69,7 @@ def process_event_details():
         event_venue = event_dict['venue']
         suggested_date = ",".join(event_dict['date'])
         suggested_time = ",".join(event_dict['timeslot'])
-        duration = 0 #TODO: event_dict['duration']
+        duration = 1
 
         newMeeting = Meetings(creator_id, event_recipients, event_name, event_venue, suggested_date, suggested_time, duration)
         db.session.add(newMeeting)
