@@ -5,16 +5,17 @@ var event_venue;
 var suggested_date = [];
 var suggested_time;
 var duration;
+var split = location.search.replace('?', '').split('=');
 	
 	$.ajax({
 		  dataType: "json", 
 		  type: "GET",
-		  url: "/event/",
+		  url: "/specific_event/"+split[1]+"",
 		}).done(function(json) {
-			event_name = json.event_name;
-			event_venue = json.event_venue;
-			suggested_date = json.suggested_date;
-			suggested_time = json.suggested_time;
+			event_name = json.current_meeting.event_name;
+			event_venue = json.current_meeting.event_venue;
+			suggested_date = json.current_meeting.suggested_date;
+			suggested_time = json.current_meeting.suggested_time;
 			duration = json.duration;
 			$('.meetingName').text(event_name);
 			$('.meetingVenue').text(event_venue);
@@ -28,10 +29,10 @@ var duration;
 					var c=suggested_date[i],
 					$('div.row').append('<div class="col-sm-3 oneday"><h3 class="date">'+b+'</h3><span id ="d'+i+'" data-date="'+suggested_date[i]+'" class="timeslots"></span></div>');
 					var timeslots = [];
-					var timeslot1 = [00,01,02,03,04,05];
-					var timeslot2 = [06,07,08,09,10,11];
-					var timeslot3 = [12,13,14,15,16,17];
-					var timeslot4 = [18,19,20,21,22,23];
+					var timeslot1 = [0000,0100,0200,0300,0400,0500];
+					var timeslot2 = [0600,0700,0800,0900,1000,1100];
+					var timeslot3 = [1200,1300,1400,1500,1600,1700];
+					var timeslot4 = [1800,1900,2000,2100,2200,2300];
 					if (jQuery.inArray(1,suggested_time) >= 0) {
 						$.merge(timeslots, timeslot1);
 					};
