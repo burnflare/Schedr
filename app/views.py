@@ -137,10 +137,11 @@ def manage_user_schedule():
         "2200": 1, 
         "2300": 0
     } } """
-            meeting_schedule = json.loads(request.data)
-            for i in range(len(meeting_schedule)):
-                pprint(meeting_schedule[i])
-
+        meeting_schedule = json.loads(request.date)
+        pprint(meeting_schedule)
+        #for i in range(len(meeting_schedule)):
+        #    pprint(meeting_schedule[i])
+    return 'a'
 
 @app.route('/logout')
 def logout():
