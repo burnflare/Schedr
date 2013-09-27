@@ -6,6 +6,16 @@ var matesCount = 1;var matesEmails = [];
 var meetingDuration;
  function signinCallback(authResult) {
   if (authResult['access_token']) {
+	  getUserInfo(authResult['access_token'], function(data){
+		  $.ajax({
+			  data: data,
+			  dataType: "json",
+			  type: "POST",
+			  url: "/login/",
+		  }).done(function() {
+			  console.log("Login success");
+		  });
+	  });
     $.ajax({
 		  data: JSON.stringify({recipients:matesEmails,name:meetingName,venue:meetingVenue,date:datesSelected,timeslot:TR}), 
 		  dataType: "json",
@@ -18,7 +28,7 @@ var meetingDuration;
 			   }
           }
 		}).done(function() {
-		  //go to /calender if success
+		  window.location = "almostthere.html";
 	});
     console.log('success');
   } else if (authResult['error']) {

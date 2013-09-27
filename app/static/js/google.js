@@ -108,11 +108,11 @@ function generateOutputJSON(events, startDate, numberOfDays, callback) {
 		for (var t = 0; t < 24; t++) {
 			d.setHours(t);
 			
-			var val = false;
+			var val = 0;
 			for (var u = 0; u < events.length; u++) {
 				var diff = events[u].getTime() - d.getTime();
 				if (diff < 3599143 && diff > -3599143) {
-					val = true;
+					val = 1;
 				}
 			}
 			
