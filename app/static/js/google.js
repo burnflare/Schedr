@@ -21,12 +21,11 @@ function getUserInfo(accessToken) {
 				url: "https://www.googleapis.com/userinfo/v2/me",
 				success: function(data) {
 					output['email'] = data['email'];
-					console.log(output);
 				}
 			});
 		}
 	});
-	return output;
+	return JSON.stringify(output);
 }
 
 //Calendar APIs
