@@ -1,3 +1,26 @@
+//Reverse Geolocation API
+
+function locateMe(){
+	if (navigator.geolocation) {
+	    navigator.geolocation.getCurrentPosition(showPosition);
+	} else {
+		alert("Geolocation is not supported by this browser.");
+	}
+}
+
+function showPosition(position) {
+	geocoder = new google.maps.Geocoder();
+	var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	geocoder.geocode({'latLng':  latlng}, function(results, status) {
+	    if (status == google.maps.GeocoderStatus.OK) {
+			console.log(results);
+			$('input#inputLocation').val(results[0].formatted_address);
+	    } else {
+	      alert('Geocoder failed due to: ' + status);
+	    }
+	  });
+}
+
 //User info APIs
 
 function getUserInfo(accessToken, callback) {
