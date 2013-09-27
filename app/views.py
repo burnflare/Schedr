@@ -120,6 +120,7 @@ def manage_user_schedule(meeting_id):
         creator_id = session['creator_id']
     else:
         creator_id = 0
+        return '0'
     if creator_id != 0:
         meeting_schedule = json.loads(request.data)
         selected_timings = meeting_schedule['selected_timings']
@@ -133,7 +134,7 @@ def manage_user_schedule(meeting_id):
             newSchedule = Schedule(date, time, creator_id, availability, meeting_id)
             db.session.add(newSchedule)
             db.session.commit()
-    return 'successful'
+    return '1'
 
 @app.route('/logout')
 def logout():
