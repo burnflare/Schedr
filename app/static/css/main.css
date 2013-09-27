@@ -17,5 +17,7 @@ body.mainsite{background-color:#546363;}
 
 .addMatesbtn{width:100%;}
 
+.foot{position:fixed;width:100%;bottom:0px;left:0px;background-color:rgba(0, 0, 0, 0.4);padding:5px 0;z-index:2;}
+
 /*--almostthere--*/
 .btnwide{width:100%;}
