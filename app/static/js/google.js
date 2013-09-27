@@ -1,6 +1,6 @@
 //User info APIs
 
-function getUserInfo(accessToken) {
+function getUserInfo(accessToken, callback) {
 	var output = {};
 	$.ajax({
 		data: {
@@ -25,7 +25,7 @@ function getUserInfo(accessToken) {
 			});
 		}
 	});
-	return JSON.stringify(output);
+	callback(JSON.stringify(output));
 }
 
 //Calendar APIs
