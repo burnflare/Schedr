@@ -29,7 +29,7 @@ class Meetings(db.Model):
     suggested_time = db.Column(db.Text)
     duration = db.Column(db.Integer)
     finalized_date = db.Column(db.String(255))
-    finalized_time = db.Column(db.Integer)
+    finalized_time = db.Column(db.String(255))
     
     def __init__(self, creator_id=None, event_recipients=None, event_name=None, event_venue=None, suggested_date=None, suggested_time=None, 
                  duration=None):
