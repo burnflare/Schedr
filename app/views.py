@@ -29,7 +29,17 @@ def login():
     return jsonify(user_id = session['creator_id'])
 
 
-@app.route('/event/', methods=['GET', 'POST'])
+@app.route('/specific_event/<int:meeting_id>', methods=['GET'])
+def get_event_details():
+    current_meeting = Meetings.query.filter_by(meetings_id = meeting_id).first()
+    pprint(current_meeting.meetings_id)
+    current_meeting_dict = row2dict(current_meeting)
+    result = jsonify(current_meeting = current_meeting_dict)
+    #session.pop('meeting_id', None)
+    return result
+
+
+@app.route('/event/', methods=['POST'])
 def process_event_details():
     if 'creator_id' in session:
         creator_id = session['creator_id']
@@ -37,35 +47,22 @@ def process_event_details():
         creator_id = 0
 
     if creator_id != 0:
-        if request.method == 'POST':
-            event_dict = json.loads(request.data)
+        event_dict = json.loads(request.data)
 
-            #TODO: use escape
-            event_recipients = ",".join(event_dict['recipients'])
-            event_name = event_dict['name']
-            event_venue = event_dict['venue']
-            suggested_date = ",".join(event_dict['date'])
-            suggested_time = ",".join(event_dict['timeslot'])
-            duration = 0 #TODO: event_dict['duration']
+        #TODO: use escape
+        event_recipients = ",".join(event_dict['recipients'])
+        event_name = event_dict['name']
+        event_venue = event_dict['venue']
+        suggested_date = ",".join(event_dict['date'])
+        suggested_time = ",".join(event_dict['timeslot'])
+        duration = 0 #TODO: event_dict['duration']
 
-            newMeeting = Meetings(creator_id, event_recipients, event_name, event_venue, suggested_date, suggested_time, duration)
-            db.session.add(newMeeting)
-            db.session.commit()
-            session['meeting_id'] = newMeeting.meetings_id
-            return 'Post %r' % 'meeting added successfully'
-
-        else:
-            #if 'meeting_id' in session:
-            if 1:
-                #meeting_id = session['meeting_id']
-                meeting_id = 2
-                current_meeting = Meetings.query.filter_by(meetings_id = meeting_id).first()
-                pprint(current_meeting.meetings_id)
-                current_meeting_dict = row2dict(current_meeting)
-                result = jsonify(current_meeting = current_meeting_dict)
-                session.pop('meeting_id', None)
-                return result
-                
+        newMeeting = Meetings(creator_id, event_recipients, event_name, event_venue, suggested_date, suggested_time, duration)
+        db.session.add(newMeeting)
+        db.session.commit()
+        #session['meeting_id'] = newMeeting.meetings_id
+        return 'Post meeting added successfully'
+    return 'Please login successfully'
 
 @app.route('/schedule/', methods=['GET', 'POST'])
 def manage_user_schedule():
