@@ -165,9 +165,6 @@ def manage_user_schedule():
                 }
             }
 
-
-
-
         #meeting_schedule = json.loads(request.date)
         pprint(meeting_schedule)
         #for i in range(len(meeting_schedule)):

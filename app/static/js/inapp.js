@@ -21,33 +21,33 @@ var split = location.search.replace('?', '').split('=');
 			$('.meetingName').text(event_name);
 			$('.meetingVenue').text(event_venue);
 			$('.meetingTime').text(duration);
-			
-			if (json.finalized_time != null) {
-				console.log('in done');
+			if (json.current_meeting.finalized_time != null) {
 			} else {
-				var a = ++suggested_date.length;
+				var a = suggested_date.length;
 				for (var i=0;i<a;++i) {
 					var b= moment(suggested_date[i], "YYYY-MM-DD").format('dddd, MMMM Do YYYY');
 					var c=suggested_date[i];
 					$('div.row').append('<div class="col-sm-3 oneday"><h3 class="date">'+b+'</h3><span id ="d'+i+'" data-date="'+suggested_date[i]+'" class="timeslots"></span></div>');
 					var timeslots = [];
-					var timeslot1 = [0000,0100,0200,0300,0400,0500];
-					var timeslot2 = [0600,0700,0800,0900,1000,1100];
-					var timeslot3 = [1200,1300,1400,1500,1600,1700];
-					var timeslot4 = [1800,1900,2000,2100,2200,2300];
-					if (jQuery.inArray(1,suggested_time) >= 0) {
+					var timeslot1 = [00,01,02,03,04,05];
+					var timeslot2 = [06,07,08,09,10,11];
+					var timeslot3 = [12,13,14,15,16,17];
+					var timeslot4 = [18,19,20,21,22,23];
+					console.log(suggested_time);
+					if (jQuery.inArray("1",suggested_time) >= 0) {
 						$.merge(timeslots, timeslot1);
 					};
-					if (jQuery.inArray(2,suggested_time) >= 0) {
+					if (jQuery.inArray("2",suggested_time) >= 0) {
 						$.merge(timeslots, timeslot2);
 					};
-					if (jQuery.inArray(3,suggested_time) >= 0) {
+					if (jQuery.inArray("3",suggested_time) >= 0) {
 						$.merge(timeslots, timeslot3);
 					};
-					if (jQuery.inArray(4,suggested_time) >= 0) {
+					if (jQuery.inArray("4",suggested_time) >= 0) {
 						$.merge(timeslots, timeslot4);
 					};
-					var k = ++timeslots.length;
+					console.log(timeslots);
+					var k = timeslots.length;
 					for (var z=0;z<k;++z) {
 					$('span#d'+i+'').append('<button id="t'+timeslots[z]+'_'+c+'" class="timeslot btn btn-default center"><h1 class="glyping glyphicon glyphicon-remove"></h1><b class="timetext">'+timeslots[z]+'</b></button>');
 					};
