@@ -67,7 +67,7 @@ def process_event_details():
     return 'Please login successfully'
 
 
-@app.route('/admin/', methods=['GET'])
+@app.route('/admin/')
 def get_admin_details():
     if 'creator_id' in session:
         creator_id = session['creator_id']
