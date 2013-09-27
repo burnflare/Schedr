@@ -55,12 +55,12 @@ def get_event_details(meeting_id):
 
 @app.route('/event/', methods=['POST'])
 def process_event_details():
-    #if 'creator_id' in session:
-    #    creator_id = session['creator_id']
-    #else:
-    #    creator_id = 0
+    if 'creator_id' in session:
+        creator_id = session['creator_id']
+    else:
+        creator_id = 0
 
-    if 1 != 0:
+    if creator_id != 0:
         event_dict = json.loads(request.data)
 
         #TODO: use escape
