@@ -14,8 +14,8 @@ var split = location.search.replace('?', '').split('=');
 		}).done(function(json) {
 			event_name = json.current_meeting.event_name;
 			event_venue = json.current_meeting.event_venue;
-			suggested_date = json.current_meeting.suggested_date;
-			suggested_time = json.current_meeting.suggested_time;
+			suggested_date = json.current_meeting.suggested_date.split(',');
+			suggested_time = json.current_meeting.suggested_time.split(',');
 			duration = json.duration;
 			$('.meetingName').text(event_name);
 			$('.meetingVenue').text(event_venue);
