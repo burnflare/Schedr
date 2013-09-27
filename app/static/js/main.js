@@ -8,8 +8,9 @@ var meetingDuration;
   if (authResult['access_token']) {
 	  getUserInfo(authResult['access_token'], function(data){
 		  $.ajax({
-			  data: data,
+			  data: JSON.stringify(data),
 			  dataType: "json",
+			  contentType: 'application/json', 
 			  type: "POST",
 			  url: "/login/",
 		  }).done(function() {
