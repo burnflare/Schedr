@@ -117,12 +117,12 @@ function generateOutputJSON(events, startDate, numberOfDays, callback) {
 			}
 			
 			if (t<10) {
-				time["0" + t + "00"] = val;	
+				time["t0" + t + "00"] = val;	
 			} else {
-				time[t + "00"] = val;
+				time[t + "t00"] = val;
 			}
 		}
-		output[ISODateString(d)] = time;
+		output["d" + ISODateString(d)] = time;
 	}
 	callback(JSON.stringify(output));
 }
