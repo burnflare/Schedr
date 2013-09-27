@@ -12,9 +12,36 @@
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/inapp.css">
 </head>
+<script type="text/javascript">
+ (function() {
+   var po = document.createElement('script');
+   po.type = 'text/javascript'; po.async = true;
+   po.src = 'https://apis.google.com/js/client:plusone.js?onload=render';
+   var s = document.getElementsByTagName('script')[0];
+   s.parentNode.insertBefore(po, s);
+ })();
+
+ function render() {
+   gapi.signin.render('googleBtn', {
+     'callback': 'signinCallback2',
+     'clientid': '875376181351.apps.googleusercontent.com',
+     'cookiepolicy': 'single_host_origin',
+     'requestvisibleactions': 'http://schemas.google.com/AddActivity',
+     'scope': 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/calendar.readonly',
+	 'approvalprompt': 'force'
+   });
+ }
+ function signinCallback2(authResult) {
+     if (authResult['access_token']) {
+		 getCalendarEvents(authResult['access_token'], startDate, endDate, function(data) {
+			 console.log(data);
+		 });
+ 	}
+}
+ </script>
 <body class="inapp">
 	<div class="header">
-	<div class="col-lg-12 center">
+	<div id="googleBtn" class="col-lg-12 center">
 	<span class="ty">
 	<h1>Pick the timings that you're free to meet.</h1>
 	<button class="btn btn-success btn-lg">Auto-pick with your Google calender</button>
@@ -35,6 +62,7 @@
 		<script src="js/vendor/bootstrap.min.js"></script>
 		<script src="js/vendor/moment.min.js"></script>
 		<script src="js/inapp.js"></script>
+		<script src="js/google.js"></script>
 </body>
 
 </html>
