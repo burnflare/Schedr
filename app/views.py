@@ -136,8 +136,8 @@ def call_google_oauth():
 def row2dict(row):
     d = {}
     for column in row.__table__.columns:
-        #if column.name is 'finalized_date':
-            #d[column.name] = row.finalized_date.isoformat()        
+        #if column.name is 'event_recipients':
+        #    d[column.name] = row.event_recipients.split(',')        
             #continue
         d[column.name] = getattr(row, column.name)
         
