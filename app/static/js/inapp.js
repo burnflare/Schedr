@@ -51,7 +51,7 @@ var split = location.search.replace('?', '').split('=');
 					console.log(timeslots);
 					var k = timeslots.length;
 					for (var z=0;z<k;++z) {
-					$('span#d'+i+'').append('<button id="t'+timeslots[z]+'_'+c+'" class="timeslot btn btn-default center"><h1 class="glyping glyphicon glyphicon-remove"></h1><b class="timetext">'+timeslots[z]+'</b></button>');
+					$('span#d'+i+'').append('<button id="'+timeslots[z]+'00_'+c+'" class="timeslot btn btn-default center"><h1 class="glyping glyphicon glyphicon-remove"></h1><b class="timetext">'+timeslots[z]+'</b></button>');
 					};
 				};
 			functionClicks();
@@ -74,5 +74,17 @@ function functionClicks() {
 		};
 	});
 };
+
+$('button.submit').click(function() {
+	$.ajax({
+			  data: JSON.stringify({selected_timings:selectedTimeslots}),
+			  dataType: "json",
+			  contentType: 'application/json', 
+			  type: "POST",
+			  url: "/schedule/"+meeting_id+"",
+		  }).done(function() {
+			  console.log("Login success");
+	});
+});
 	
 });
