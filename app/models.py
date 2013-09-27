@@ -7,15 +7,11 @@ class User(db.Model):
     f_name = db.Column(db.String(255))
     l_name = db.Column(db.String(255))
     email = db.Column(db.String(255), unique = True)
-    oAuth_access = db.Column(db.String(255))
-    oAuth_token = db.Column(db.String(255))
     
-    def __init__(self, f_name=None, l_name=None, email=None, oAuth_access=None, oAuth_token=None):
+    def __init__(self, f_name=None, l_name=None, email=None):
         self.f_name = f_name
         self.l_name = l_name
         self.email = email
-        self.oAuth_access = oAuth_access
-        self.oAuth_token = oAuth_token
 
     def __repr__(self):
         return '<Id %r>' % (self.user_id)
@@ -32,7 +28,7 @@ class Meetings(db.Model):
     suggested_date = db.Column(db.Text)
     suggested_time = db.Column(db.Text)
     duration = db.Column(db.Integer)
-    finalized_date = db.Column(db.Date)
+    finalized_date = db.Column(db.String(255))
     finalized_time = db.Column(db.Integer)
     
     def __init__(self, creator_id=None, event_recipients=None, event_name=None, event_venue=None, suggested_date=None, suggested_time=None, 
