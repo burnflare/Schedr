@@ -45,3 +45,24 @@ class Meetings(db.Model):
 
     def __repr__(self):
         return '<Id %r>' % (self.meetings_id)
+
+
+class Schedule(db.Model):
+    #db.Model is my database
+    __tablename__ = 'schedule'
+    schedule_id = db.Column(db.Integer, primary_key = True)
+    date = db.Column(db.String(255))
+    time = db.Column(db.String(255))
+    user_id = db.Column(db.Integer)
+    availability = db.Column(db.Integer)
+    meeting_id = db.Column(db.Integer)
+    
+    def __init__(self, date=None, time=None, user_id=None, availability=None, meeting_id=None):
+        self.date = date
+        self.time = time
+        self.user_id = user_id
+        self.availability = availability
+        self.meeting_id = meeting_id
+
+    def __repr__(self):
+        return '<Id %r>' % (self.schedule_id)

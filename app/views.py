@@ -1,7 +1,7 @@
 from app import app, db
 from flask import url_for, request, abort, session, redirect, escape, render_template, jsonify, json
 from pprint import pprint
-from models import User, Meetings
+from models import User, Meetings, Schedule
 import csv
 
 @app.route('/')
@@ -102,74 +102,26 @@ def get_admin_details():
     return result
 
 
-@app.route('/schedule/', methods=['GET', 'POST'])
-def manage_user_schedule():
+@app.route('/schedule/<int:meeting_id>')
+def manage_user_schedule(meeting_id):
     if 'creator_id' in session:
         creator_id = session['creator_id']
     else:
         creator_id = 0
     if creator_id != 0:
-        if request.method != 'POST': #change to ==
-            meeting_schedule = {
-                "2013-09-20": {
-                    "0000": 0, 
-                    "0100": 0, 
-                    "0200": 0, 
-                    "0300": 0, 
-                    "0400": 0, 
-                    "0500": 0, 
-                    "0600": 0, 
-                    "0700": 0, 
-                    "0800": 0, 
-                    "0900": 0, 
-                    "1000": 0, 
-                    "1100": 0, 
-                    "1200": 0, 
-                    "1300": 1, 
-                    "1400": 1, 
-                    "1500": 0, 
-                    "1600": 0, 
-                    "1700": 1, 
-                    "1800": 1, 
-                    "1900": 0, 
-                    "2000": 0, 
-                    "2100": 1, 
-                    "2200": 1, 
-                    "2300": 0
-                }, 
-                "2013-09-21": {
-                    "0000": 0, 
-                    "0100": 0, 
-                    "0200": 0, 
-                    "0300": 0, 
-                    "0400": 0, 
-                    "0500": 0, 
-                    "0600": 0, 
-                    "0700": 1, 
-                    "0800": 1, 
-                    "0900": 0, 
-                    "1000": 0, 
-                    "1100": 0, 
-                    "1200": 0, 
-                    "1300": 1, 
-                    "1400": 1, 
-                    "1500": 0, 
-                    "1600": 0, 
-                    "1700": 0, 
-                    "1800": 0, 
-                    "1900": 0, 
-                    "2000": 0, 
-                    "2100": 1, 
-                    "2200": 1, 
-                    "2300": 0
-                }
-            }
-
-        #meeting_schedule = json.loads(request.date)
-        pprint(meeting_schedule)
-        #for i in range(len(meeting_schedule)):
-        #    pprint(meeting_schedule[i])
-    return 'a'
+        meeting_schedule = json.loads(request.date)
+            selected_timings = meeting_schedule['selected_timings']
+            for i in selected_timings:
+                availability = 1
+                pprint(i)
+                selected_datetime = i.split('_')
+                pprint(selected_datetime)
+                time = selected_datetime[0]
+                date = selected_datetime[1]
+                newSchedule = Schedule(date, time, creator_id, availability, meeting_id)
+                db.session.add(newSchedule)
+                db.session.commit()
+    return 'successful'
 
 @app.route('/logout')
 def logout():
