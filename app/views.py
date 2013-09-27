@@ -102,25 +102,26 @@ def get_admin_details():
     return result
 
 
-@app.route('/schedule/<int:meeting_id>')
+@app.route('/schedule/<int:meeting_id>', methods=['GET', 'POST'])
 def manage_user_schedule(meeting_id):
+    pprint('hi')
     if 'creator_id' in session:
         creator_id = session['creator_id']
     else:
         creator_id = 0
     if creator_id != 0:
-        meeting_schedule = json.loads(request.date)
-            selected_timings = meeting_schedule['selected_timings']
-            for i in selected_timings:
-                availability = 1
-                pprint(i)
-                selected_datetime = i.split('_')
-                pprint(selected_datetime)
-                time = selected_datetime[0]
-                date = selected_datetime[1]
-                newSchedule = Schedule(date, time, creator_id, availability, meeting_id)
-                db.session.add(newSchedule)
-                db.session.commit()
+        meeting_schedule = json.loads(request.data)
+        selected_timings = meeting_schedule['selected_timings']
+        for i in selected_timings:
+            availability = 1
+            pprint(i)
+            selected_datetime = i.split('_')
+            pprint(selected_datetime)
+            time = selected_datetime[0]
+            date = selected_datetime[1]
+            newSchedule = Schedule(date, time, creator_id, availability, meeting_id)
+            db.session.add(newSchedule)
+            db.session.commit()
     return 'successful'
 
 @app.route('/logout')
