@@ -40,8 +40,8 @@ class Meetings(db.Model):
         self.suggested_date = suggested_date
         self.suggested_time = suggested_time
         self.duration = duration
-        self.finalized_date = 0
-        self.finalized_time = 0
+        self.finalized_date = ""
+        self.finalized_time = ""
 
     def __repr__(self):
         return '<Id %r>' % (self.meetings_id)
