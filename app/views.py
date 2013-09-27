@@ -74,7 +74,6 @@ def get_admin_details():
     else:
         creator_id = 0
 
-    creator_id = 18 #TODO: comment this off
     count = 0
     event_details = {}
     if creator_id:
