@@ -57,7 +57,7 @@ def process_event_details():
         event_venue = event_dict['venue']
         suggested_date = ",".join(event_dict['date'])
         suggested_time = ",".join(event_dict['timeslot'])
-        duration = 0 #TODO: event_dict['duration']
+        duration = event_dict['duration'] #TODO: event_dict['duration']
 
         newMeeting = Meetings(creator_id, event_recipients, event_name, event_venue, suggested_date, suggested_time, duration)
         db.session.add(newMeeting)
