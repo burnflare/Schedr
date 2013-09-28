@@ -1,3 +1,5 @@
+var startendDate = [];
+
 $(document).ready(function() {	
     
 var event_name;
@@ -19,6 +21,8 @@ var split = location.search.replace('?', '').split('=');
 			meeting_id = json.current_meeting.meetings_id;
 			console.log(meeting_id);
 			suggested_date = json.current_meeting.suggested_date.split(',');
+			var a = suggested_date.length;
+			startendDate = [suggested_date[0],suggested_date[a-1]];
 			suggested_time = json.current_meeting.suggested_time.split(',');
 			duration = json.duration;
 			$('.meetingName').text(event_name);
@@ -26,7 +30,6 @@ var split = location.search.replace('?', '').split('=');
 			$('.meetingTime').text(duration);
 			if (json.current_meeting.finalized_time != "") {
 			} else {
-				var a = suggested_date.length;
 				for (var i=0;i<a;++i) {
 					var b= moment(suggested_date[i], "YYYY-MM-DD").format('dddd, MMMM Do YYYY');
 					var c=suggested_date[i];
@@ -85,7 +88,7 @@ $('button.submit').click(function() {
 		  }).done(function() {
 			   $('div.row').empty();
 			   $('div.foot').empty();
-			   $('span.ty').fadeOut().empty().append("<h1>Thank you</h1><h4>We will auto-generate the best timeslot and send it to your email inbox when all members have indicated. Have a nice day!</h4>").fadeIn();
+			   $('span.ty').fadeOut().empty().append("<h1>Thank you</h1><h4>Schedr will generate the best meeting time when all members have indicated theirs and deliver it to your email inbox.<br/>Have a nice day!</h4>").fadeIn();
 	});
 });
 	
