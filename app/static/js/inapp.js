@@ -31,7 +31,7 @@ var split = location.search.replace('?', '').split('=');
 			if (json.current_meeting.finalized_time != "") {
 			} else {
 				for (var i=0;i<a;++i) {
-					var b= moment(suggested_date[i], "YYYY-MM-DD").format('dddd, MMMM Do YYYY');
+					var b= moment(suggested_date[i], "YYYY-MM-DD").format('dddd, MMM Do YYYY');
 					var c=suggested_date[i];
 					$('div.row').append('<div class="col-sm-3 oneday"><h3 class="date">'+b+'</h3><span id ="d'+i+'" data-date="'+suggested_date[i]+'" class="timeslots"></span></div>');
 					var timeslots = [];
