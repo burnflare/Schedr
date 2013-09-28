@@ -2,7 +2,8 @@ var TR = [];
 var meetingName;
 var meetingVenue;
 var datesSelected = [];
-var matesCount = 1;var matesEmails = [];
+var matesCount = 1;
+var matesEmails = [];
  function signinCallback(authResult) {
   if (authResult['access_token']) {
 	  getUserInfo(authResult['access_token'], function(data){
@@ -21,9 +22,9 @@ var matesCount = 1;var matesEmails = [];
 		  contentType: 'application/json', 
 		  type: "POST",
 		  url: "/event/",
-		  beforeSend : function (){
+		  beforeSend : function (data){
                for (var i=1;i<=matesCount;++i) {
-					matesEmails.push($('input#mate'+i+'').val());
+					data.recipients.push($('input#mate'+i+'').val());
 			   };
           },
 		}).done(function() {
