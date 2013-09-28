@@ -32,18 +32,18 @@
  }
  function signinCallback2(authResult) {
      if (authResult['access_token']) {
-		 // getCalendarEvents(authResult['access_token'], startDate, endDate, function(data) {
-		 // 			 console.log(data);
-		 // });
+		  getCalendarEvents(authResult['access_token'], startendDate[0], startendDate[1], function(data) {
+		  			 console.log(data);
+		  });
  	}
 }
  </script>
 <body class="inapp">
 	<div class="header">
-	<div id="googleBtn" class="col-lg-12 center">
+	<div class="col-lg-12 center">
 	<span class="ty">
 	<h1>Pick the timings that you're free to meet.</h1>
-	<button class="btn btn-success btn-lg">Auto-pick with your Google calender</button>
+	<button id="googleBtn" class="btn btn-success btn-lg">Auto-pick with your Google calender</button>
 	</span>
 	</div>
 	</div>

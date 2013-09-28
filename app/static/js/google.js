@@ -1,3 +1,26 @@
+//Reverse Geolocation API
+
+function locateMe(){
+	if (navigator.geolocation) {
+	    navigator.geolocation.getCurrentPosition(showPosition);
+	} else {
+		alert("Geolocation is not supported by this browser.");
+	}
+}
+
+function showPosition(position) {
+	geocoder = new google.maps.Geocoder();
+	var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	geocoder.geocode({'latLng':  latlng}, function(results, status) {
+	    if (status == google.maps.GeocoderStatus.OK) {
+			console.log(results);
+			$('input#inputLocation').val(results[0].formatted_address);
+	    } else {
+	      alert('Geocoder failed due to: ' + status);
+	    }
+	  });
+}
+
 //User info APIs
 
 function getUserInfo(accessToken, callback) {
@@ -104,7 +127,7 @@ function generateOutputJSON(events, startDate, numberOfDays, callback) {
 		d.setDate(startDate.getDate() + i);
 		d.setMinutes(0);
 		d.setSeconds(0);
-		var time = {};
+		var time = [];
 		for (var t = 0; t < 24; t++) {
 			d.setHours(t);
 			
@@ -115,11 +138,11 @@ function generateOutputJSON(events, startDate, numberOfDays, callback) {
 					val = 1;
 				}
 			}
-			if (val = 1) {
+			if (val == 0) {
 				if (t<10) {
-					time["t0" + t + "00"] = val;	
+					time.push("0" + t + "00");
 				} else {
-					time[t + "t00"] = val;
+					time.push(t + "00");
 				}	
 			}
 		}
