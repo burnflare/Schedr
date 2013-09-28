@@ -23,9 +23,7 @@ var matesEmails = [];
 		  type: "POST",
 		  url: "/event/",
 		  beforeSend : function (data){
-               for (var i=1;i<=matesCount;++i) {
-					data.recipients.push($('input#mate'+i+'').val());
-			   };
+               console.log(data);
           },
 		}).done(function() {
 			console.log('inside done');
