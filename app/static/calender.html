@@ -34,7 +34,7 @@
  function signinCallback2(authResult) {
      if (authResult['access_token']) {
 		  getCalendarEvents(authResult['access_token'], startendDate[0], startendDate[1], function(data) {
-		  			 console.log(data[0]);
+		  			 console.log(data[1]);
 					 //var a = data.length;
 					 //for (var i=0;i<a;++i) {
 					 //	$('button#d'+data[i]+'').click();
