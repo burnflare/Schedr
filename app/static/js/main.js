@@ -13,23 +13,24 @@ var matesEmails = [];
 			  contentType: 'application/json', 
 			  type: "POST",
 			  url: "/login/",
+			  beforeSend : function (){
+						   for (var i=1;i<=matesCount;++i) {
+								matesEmails.push($('input#mate'+i+'').val());
+						   };
+					  },
 		  }).done(function() {
-			  console.log("Login success");
+				console.log(matesEmails);
+				$.ajax({
+					  data: JSON.stringify({recipients:matesEmails,name:meetingName,venue:meetingVenue,date:datesSelected,timeslot:TR}), 
+					  contentType: 'application/json', 
+					  type: "POST",
+					  url: "/event/"
+					}).done(function() {
+						console.log('inside done');
+					  window.location = "almostthere.html";
+				});
 		  });
 	  });
-    $.ajax({
-		  data: JSON.stringify({recipients:matesEmails,name:meetingName,venue:meetingVenue,date:datesSelected,timeslot:TR}), 
-		  contentType: 'application/json', 
-		  type: "POST",
-		  url: "/event/",
-		  beforeSend : function (data){
-               console.log(data);
-          },
-		}).done(function() {
-			console.log('inside done');
-		  window.location = "almostthere.html";
-	});
-    console.log('success');
   } else if (authResult['error']) {
 	$('.form-horizontal').empty().append('There was an error, refresh the page and try again!');
   }
