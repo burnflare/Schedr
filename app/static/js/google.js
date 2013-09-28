@@ -148,5 +148,5 @@ function generateOutputJSON(events, startDate, numberOfDays, callback) {
 		}
 		// output["d" + ISODateString(d)] = time;
 	}
-	callback(JSON.stringify(output));
+	callback(output);
 }
