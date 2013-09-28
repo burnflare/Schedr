@@ -1,10 +1,10 @@
 var startendDate = [];
+var suggested_date = [];
 
 $(document).ready(function() {	
     
 var event_name;
 var event_venue;
-var suggested_date = [];
 var suggested_time;
 var duration;
 var meeting_id;
