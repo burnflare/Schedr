@@ -1,4 +1,4 @@
-from app import app, db, mail, USERNAME, PASSWORD
+from app import app, db, mail, USERNAME
 from flask import url_for, request, abort, session, redirect, escape, render_template, jsonify, json
 from pprint import pprint
 from models import User, Meetings, Schedule
@@ -12,14 +12,13 @@ def index():
 
 @app.route('/testing_email')
 def email():
-    msg = Message("Hello",
+    msg = Message("Invitation to schedule your meeting by ",
                   sender=USERNAME,
-                  recipients=[USERNAME])
+                  recipients=['chinab91@gmail.com', 'chinab@jublia.com'])
     msg.body = "hello world"
     msg.html = "<b>testing</b>"
     mail.send(msg)
     return 'a'
-
 
 @app.route('/login/', methods=['POST'])
 def login():
@@ -74,6 +73,20 @@ def process_event_details():
         newMeeting = Meetings(creator_id, event_recipients, event_name, event_venue, suggested_date, suggested_time, duration)
         db.session.add(newMeeting)
         db.session.commit()
+
+        existing_users = User.query.filter_by(user_id = creator_id).first()
+        user_name = existing_users.f_name
+        email = existing_users.email
+
+        msg = Message("Invitation to schedule " + event_name + " meeting by " + user_name,
+                sender=USERNAME,
+                recipients=event_dict['recipients'],
+                cc = email)
+        msg.body = "Hi Guys, <br/><br/>"+user_name+ " has scheduled a meeting. Go check and confirm your availability via sd.vishnuprem.com<br/><br/>Thanks!"
+        msg.html = "<b>testing</b>"
+        mail.send(msg)
+        return 'a'
+
         #session['meeting_id'] = newMeeting.meetings_id
         return 'Post meeting added successfully'
     return 'Please login successfully'
