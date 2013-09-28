@@ -19,14 +19,12 @@ var matesEmails = [];
 						   };
 					  },
 		  }).done(function() {
-				console.log(matesEmails);
 				$.ajax({
 					  data: JSON.stringify({recipients:matesEmails,name:meetingName,venue:meetingVenue,date:datesSelected,timeslot:TR}), 
 					  contentType: 'application/json', 
 					  type: "POST",
 					  url: "/event/"
 					}).done(function() {
-						console.log('inside done');
 					  window.location = "almostthere.html";
 				});
 		  });
@@ -52,7 +50,6 @@ function updateDates() {
 	$('span.addDates').append('<button id="d'+a+'" data-daterange="'+data+'" class="DR btn btn-xs btn-danger">'+dayofweek+'<h1 class="datesec">'+date+'</h1>'+month+' '+year+'</button>');
 	};
 	$('button#d'+a+'').click(function() {
-		console.log(datesSelected);
 		var B = this;
 		if ( $(B).hasClass('btn-danger') == true ) {
 			$(B).addClass('btn-success').removeClass('btn-danger');
