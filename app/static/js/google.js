@@ -121,7 +121,7 @@ function getEvents(accessToken, calendarId, startDate, numberOfDays, callback) {
 }
 
 function generateOutputJSON(events, startDate, numberOfDays, callback) {
-	var output = {};
+	var output = [];
 	for (var i = 0; i < numberOfDays; i++) {
 		var d = new Date();
 		d.setDate(startDate.getDate() + i);
@@ -140,13 +140,13 @@ function generateOutputJSON(events, startDate, numberOfDays, callback) {
 			}
 			if (val == 0) {
 				if (t<10) {
-					time.push("0" + t + "00");
+					output.push("0" + t + "00_" + ISODateString(d));
 				} else {
-					time.push(t + "00");
+					output.push(t + "00_" + ISODateString(d));
 				}	
 			}
 		}
-		output["d" + ISODateString(d)] = time;
+		// output["d" + ISODateString(d)] = time;
 	}
-	callback(JSON.stringify(output));
+	callback(output);
 }

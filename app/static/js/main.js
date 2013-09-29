@@ -2,7 +2,8 @@ var TR = [];
 var meetingName;
 var meetingVenue;
 var datesSelected = [];
-var matesCount = 1;var matesEmails = [];
+var matesCount = 1;
+var matesEmails = [];
  function signinCallback(authResult) {
   if (authResult['access_token']) {
 	  getUserInfo(authResult['access_token'], function(data){
@@ -12,25 +13,22 @@ var matesCount = 1;var matesEmails = [];
 			  contentType: 'application/json', 
 			  type: "POST",
 			  url: "/login/",
+			  beforeSend : function (){
+						   for (var i=1;i<=matesCount;++i) {
+								matesEmails.push($('input#mate'+i+'').val());
+						   };
+					  },
 		  }).done(function() {
-			  console.log("Login success");
+				$.ajax({
+					  data: JSON.stringify({recipients:matesEmails,name:meetingName,venue:meetingVenue,date:datesSelected,timeslot:TR}), 
+					  contentType: 'application/json', 
+					  type: "POST",
+					  url: "/event/"
+					}).done(function() {
+					  window.location = "almostthere.html";
+				});
 		  });
 	  });
-    $.ajax({
-		  data: JSON.stringify({recipients:matesEmails,name:meetingName,venue:meetingVenue,date:datesSelected,timeslot:TR}), 
-		  contentType: 'application/json', 
-		  type: "POST",
-		  url: "/event/",
-		  beforeSend : function (){
-               for (var i=1;i<=matesCount;++i) {
-					matesEmails.push($('input#mate'+i+'').val());
-			   };
-          },
-		}).done(function() {
-			console.log('inside done');
-		  window.location = "almostthere.html";
-	});
-    console.log('success');
   } else if (authResult['error']) {
 	$('.form-horizontal').empty().append('There was an error, refresh the page and try again!');
   }
@@ -52,7 +50,6 @@ function updateDates() {
 	$('span.addDates').append('<button id="d'+a+'" data-daterange="'+data+'" class="DR btn btn-xs btn-danger">'+dayofweek+'<h1 class="datesec">'+date+'</h1>'+month+' '+year+'</button>');
 	};
 	$('button#d'+a+'').click(function() {
-		console.log(datesSelected);
 		var B = this;
 		if ( $(B).hasClass('btn-danger') == true ) {
 			$(B).addClass('btn-success').removeClass('btn-danger');

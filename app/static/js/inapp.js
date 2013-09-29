@@ -1,10 +1,10 @@
 var startendDate = [];
+var suggested_date = [];
 
 $(document).ready(function() {	
     
 var event_name;
 var event_venue;
-var suggested_date = [];
 var suggested_time;
 var duration;
 var meeting_id;
@@ -31,7 +31,7 @@ var split = location.search.replace('?', '').split('=');
 			if (json.current_meeting.finalized_time != "") {
 			} else {
 				for (var i=0;i<a;++i) {
-					var b= moment(suggested_date[i], "YYYY-MM-DD").format('dddd, MMMM Do YYYY');
+					var b= moment(suggested_date[i], "YYYY-MM-DD").format('dddd, MMM Do YYYY');
 					var c=suggested_date[i];
 					$('div.row').append('<div class="col-sm-3 oneday"><h3 class="date">'+b+'</h3><span id ="d'+i+'" data-date="'+suggested_date[i]+'" class="timeslots"></span></div>');
 					var timeslots = [];
@@ -55,7 +55,7 @@ var split = location.search.replace('?', '').split('=');
 					console.log(timeslots);
 					var k = timeslots.length;
 					for (var z=0;z<k;++z) {
-					$('span#d'+i+'').append('<button id="'+timeslots[z]+'00_'+c+'" class="timeslot btn btn-default center"><h1 class="glyping glyphicon glyphicon-remove"></h1><b class="timetext">'+timeslots[z]+'</b></button>');
+					$('span#d'+i+'').append('<button id="d'+timeslots[z]+'00_'+c+'" class="timeslot btn btn-default center"><h1 class="glyping glyphicon glyphicon-remove"></h1><b class="timetext">'+timeslots[z]+'</b></button>');
 					};
 				};
 			functionClicks();
@@ -69,11 +69,13 @@ function functionClicks() {
 		var A = this;
 		if ($(A).find('h1.glyping').hasClass('glyphicon-remove') == true) {
 			$(A).find('h1.glyping').addClass('glyphicon-ok').removeClass('glyphicon-remove');
-			selectedTimeslots.push($(A).attr('id'));
+			var B = $(A).attr('id').substring(1);
+			selectedTimeslots.push(B);
 		} else {
 			$(A).find('h1.glyping').addClass('glyphicon-remove').removeClass('glyphicon-ok');
+			var B = $(A).attr('id').substring(1);
 			selectedTimeslots = jQuery.grep(selectedTimeslots, function(value) {
-			  return value != $(A).attr('id');
+			  return value != B;
 			});
 		};
 	});

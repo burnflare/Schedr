@@ -26,6 +26,7 @@
      'callback': 'signinCallback2',
      'clientid': '875376181351.apps.googleusercontent.com',
      'cookiepolicy': 'single_host_origin',
+	 'data-approvalprompt':"force",
      'requestvisibleactions': 'http://schemas.google.com/AddActivity',
      'scope': 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/calendar.readonly'
    });
@@ -33,7 +34,10 @@
  function signinCallback2(authResult) {
      if (authResult['access_token']) {
 		  getCalendarEvents(authResult['access_token'], startendDate[0], startendDate[1], function(data) {
-		  			 console.log(data);
+					 var a = data.length;
+					 for (var i=0;i<a;++i) {
+					 	$('button#d'+data[i]+'').click();
+					 };
 		  });
  	}
 }
@@ -53,7 +57,7 @@
 	</div>
 
 	<div class="foot center">
-	<p class="white"><span class="meetingName"></span> <b>at</b> <span class="meetingVenue"></span> <b>for</b> <span class="meetingTime"></span>&nbsp;&nbsp;&nbsp;<button class="btn btn-success btn-sm submit">Submit</button></p>
+	<p class="white"><b><span class="meetingName"></span></b> at <b><span class="meetingVenue"></span></b> for <b>1 hour</b>&nbsp;&nbsp;&nbsp;<button class="btn btn-success btn-sm submit">Submit</button></p>
 	</div>
 	
 	<!-- JS -->
