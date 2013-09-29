@@ -61,7 +61,7 @@ def process_event_details():
 
     if creator_id != 0:
         event_dict = json.loads(request.data)
-
+        #event_dict['recipients'] = ['chinab91@gmail.com', 'chinab@jublia.com']
         #TODO: use escape
         event_recipients = ",".join(event_dict['recipients'])
         event_name = event_dict['name']
@@ -76,17 +76,15 @@ def process_event_details():
 
         existing_users = User.query.filter_by(user_id = creator_id).first()
         user_name = existing_users.f_name
-        email = existing_users.email
+        email = {existing_users.email}
 
-        msg = Message("Invitation to schedule " + event_name + " meeting by " + user_name,
+        msg = Message("Invitation to schedule a meeting with " + user_name,
                 sender=USERNAME,
                 recipients=event_dict['recipients'],
                 cc = email)
-        msg.body = "Hi Guys, <br/><br/>"+user_name+ " has scheduled a meeting. Go check and confirm your availability via sd.vishnuprem.com<br/><br/>Thanks!"
-        msg.html = "<b>testing</b>"
+        msg.body = "hello"
+        msg.html = "Hey!<br/><br/>"+user_name+ " has scheduled a meeting called " + event_name + " for either of the dates: " + suggested_date+".<br/> Go check and confirm your availability via sd.vishnuprem.com. Its very simple to do so with a single click google login and we will schedule a time for you to meet<br/><br/>Thanks!"
         mail.send(msg)
-        return 'a'
-
         #session['meeting_id'] = newMeeting.meetings_id
         return 'Post meeting added successfully'
     return 'Please login successfully'
