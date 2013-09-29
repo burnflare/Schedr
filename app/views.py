@@ -70,7 +70,9 @@ def process_event_details():
         suggested_time = ",".join(event_dict['timeslot'])
         duration = 1
 
-        newMeeting = Meetings(creator_id, event_recipients, event_name, event_venue, suggested_date, suggested_time, duration)
+        meeting_size = len(event_dict['recipients']) + 1
+
+        newMeeting = Meetings(creator_id, event_recipients, meeting_size, event_name, event_venue, suggested_date, suggested_time, duration)
         db.session.add(newMeeting)
         db.session.commit()
 
@@ -86,7 +88,7 @@ def process_event_details():
                 recipients=event_dict['recipients'],
                 cc = email_list)
         msg.body = "hello"
-        msg.html = "Hey!<br/><br/>"+user_name+ " has scheduled a meeting called " + event_name + " for either of the dates: " + suggested_date+".<br/> Go check and confirm your availability via sd.vishnuprem.com. Its very simple to do so with a single click google login and we will schedule a time for you to meet<br/><br/>Thanks!"
+        msg.html = "Hey!<br/><br/>"+user_name+ " has scheduled a meeting called " + event_name + " for either of the dates: " + suggested_date+".<br/> You can confirm your availability via sd.vishnuprem.com. Its very simple to do so with a single click google login and we will schedule a time for you to meet<br/><br/>You will be notifed with the confirmed date/time when everyone submits -  as simple as that :) Thanks!"
         mail.send(msg)
         #session['meeting_id'] = newMeeting.meetings_id
         return 'Post meeting added successfully'
@@ -129,26 +131,90 @@ def get_admin_details():
 
 @app.route('/schedule/<int:meeting_id>', methods=['GET', 'POST'])
 def manage_user_schedule(meeting_id):
-    pprint('hi')
+    val = 0
     if 'creator_id' in session:
         creator_id = session['creator_id']
     else:
         creator_id = 0
         return '0'
+
+    has_submitted = 0
+
     if creator_id != 0:
+        does_schedule_exist = Schedule.query.filter_by(user_id = creator_id, meeting_id = meeting_id).all()
+        for row in does_schedule_exist:
+            has_submitted = 1;
+            db.session.delete(row)
+            db.session.commit()
+
+        if has_submitted == 0:
+            pprint('hasnt submitted')
+            existing_meeting = Meetings.query.filter_by(meetings_id = meeting_id).first()
+            existing_meeting.count_logged_in = existing_meeting.count_logged_in + 1
+            db.session.commit()
+        else:
+            pprint('has submitted')
+
         meeting_schedule = json.loads(request.data)
         selected_timings = meeting_schedule['selected_timings']
         for i in selected_timings:
             availability = 1
             pprint(i)
             selected_datetime = i.split('_')
-            pprint(selected_datetime)
             time = selected_datetime[0]
             date = selected_datetime[1]
             newSchedule = Schedule(date, time, creator_id, availability, meeting_id)
             db.session.add(newSchedule)
             db.session.commit()
-    return '1'
+        #everyone has submitted, logic to calculate the meeting
+        if has_submitted == 0:
+            if existing_meeting.meeting_size == existing_meeting.count_logged_in:
+                pprint('inside the scheduler')
+                val = scheduler(existing_meeting)
+    return str(val)
+
+#@app.route('/test_scheduler/')
+def scheduler(existing_meeting):
+    #existing_meeting = Meetings.query.filter_by(meetings_id = 41).first()
+    recipients_in_meeting = []
+    event_recipients_list = existing_meeting.event_recipients.split(',')
+
+    for email in event_recipients_list:
+        user = User.query.filter_by(email = email).first()
+        if user is not None:
+            recipients_in_meeting.append(user.user_id)
+    creator_availability = Schedule.query.filter_by(meeting_id = existing_meeting.meetings_id, user_id = existing_meeting.creator_id).all()
+    for each_availability in creator_availability:
+        available_date = each_availability.date
+        available_time = each_availability.time
+        count = 1
+        for event_recipient_id in recipients_in_meeting:
+            event_recipient_availability = Schedule.query.filter_by(meeting_id = existing_meeting.meetings_id, user_id = event_recipient_id, date = available_date, time = available_time).first()
+            if event_recipient_availability is None:
+                break
+            else:
+                count = count + 1
+                if(existing_meeting.meeting_size == count):
+                    #meeting scheduled as everyone is fine with that date and time
+                    pprint('scheduling a meeting')
+                    existing_meeting.finalized_date = available_date
+                    existing_meeting.finalized_time = available_time
+                    db.session.commit()
+
+                    creator_user = User.query.filter_by(user_id = existing_meeting.creator_id).first()
+                    creator_user_email = creator_user.email
+                    event_recipients_list.append(creator_user_email)
+                    pprint(event_recipients_list)
+
+                    msg = Message("Finalized meeting details - " + existing_meeting.event_name,
+                    sender=USERNAME,
+                    recipients=event_recipients_list)
+                    msg.body = "hello"
+                    msg.html = "Hey!<br/><br/>Schedr has finalized a meeting date/time for " + existing_meeting.event_name + ".<br/>We looked at the choices submitted by your team and we consider the best time for you to meet up is on " + available_date + " at " + available_time + ".<br/><br/>Hope your meeting goes great! Continue to use schedr at sd.vishnuprem.com to schedule your life."
+                    mail.send(msg)
+                    return 1
+    return 0
+
 
 @app.route('/logout')
 def logout():

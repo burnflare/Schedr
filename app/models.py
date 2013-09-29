@@ -23,6 +23,7 @@ class Meetings(db.Model):
     meetings_id = db.Column(db.Integer, primary_key = True)
     creator_id = db.Column(db.Integer)
     event_recipients = db.Column(db.String(255))
+    meeting_size = db.Column(db.Integer)
     event_name = db.Column(db.String(255))
     event_venue = db.Column(db.String(255))
     suggested_date = db.Column(db.Text)
@@ -30,11 +31,13 @@ class Meetings(db.Model):
     duration = db.Column(db.Integer)
     finalized_date = db.Column(db.String(255))
     finalized_time = db.Column(db.String(255))
+    count_logged_in = db.Column(db.Integer)
     
-    def __init__(self, creator_id=None, event_recipients=None, event_name=None, event_venue=None, suggested_date=None, suggested_time=None, 
+    def __init__(self, creator_id=None, event_recipients=None, meeting_size=None, event_name=None, event_venue=None, suggested_date=None, suggested_time=None, 
                  duration=None):
         self.creator_id = creator_id
         self.event_recipients = event_recipients
+        self.meeting_size = meeting_size
         self.event_name = event_name
         self.event_venue = event_venue
         self.suggested_date = suggested_date
@@ -42,6 +45,7 @@ class Meetings(db.Model):
         self.duration = duration
         self.finalized_date = ""
         self.finalized_time = ""
+        self.count_logged_in = 0
 
     def __repr__(self):
         return '<Id %r>' % (self.meetings_id)
