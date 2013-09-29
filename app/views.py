@@ -76,12 +76,15 @@ def process_event_details():
 
         existing_users = User.query.filter_by(user_id = creator_id).first()
         user_name = existing_users.f_name
-        email = {existing_users.email}
+        email = existing_users.email
+
+        email_list = []
+        email_list.append(email)
 
         msg = Message("Invitation to schedule a meeting with " + user_name,
                 sender=USERNAME,
                 recipients=event_dict['recipients'],
-                cc = email)
+                cc = email_list)
         msg.body = "hello"
         msg.html = "Hey!<br/><br/>"+user_name+ " has scheduled a meeting called " + event_name + " for either of the dates: " + suggested_date+".<br/> Go check and confirm your availability via sd.vishnuprem.com. Its very simple to do so with a single click google login and we will schedule a time for you to meet<br/><br/>Thanks!"
         mail.send(msg)
