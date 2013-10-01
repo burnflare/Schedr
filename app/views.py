@@ -37,16 +37,29 @@ def login():
         db.session.commit()
         session['creator_id'] = newUser.user_id
     else:
+        #user who is coming in again
+        existingUsers.f_name = f_name
+        existingUsers.l_name = l_name
+        db.session.commit()
         session['creator_id'] = existingUsers.user_id
 
     return jsonify(user_id = session['creator_id'])
 
 
-@app.route('/specific_event/<int:meeting_id>', methods=['GET'])
+@app.route('/specific_event/<meeting_id>', methods=['GET'])
 def get_event_details(meeting_id):
+    meeting_id += '==='
+    decoded_string = meeting_id.decode('base64', 'strict')
+    decoded_list = decoded_string.split('&',1)
+    meeting_id = decoded_list[0][4:]
+    email = decoded_list[1][4:]
+    find_user = User.query.filter_by(email = email).first()
+    user_id = find_user.user_id
+
+
     current_meeting = Meetings.query.filter_by(meetings_id = meeting_id).first()
     pprint(current_meeting.meetings_id)
-    current_meeting_dict = row2dict(current_meeting)
+    current_meeting_dict = row2dict1(current_meeting, user_id)
     result = jsonify(current_meeting = current_meeting_dict)
     #session.pop('meeting_id', None)
     return result
@@ -76,20 +89,31 @@ def process_event_details():
         db.session.add(newMeeting)
         db.session.commit()
 
+        for each_user_email in event_dict['recipients']:
+            new_user = User("", "", each_user_email)
+            db.session.add(new_user)
+            db.session.commit()
+
         existing_users = User.query.filter_by(user_id = creator_id).first()
         user_name = existing_users.f_name
         email = existing_users.email
 
-        email_list = []
-        email_list.append(email)
+        
 
-        msg = Message("Invitation to schedule a meeting with " + user_name,
+        for each_email in event_dict['recipients']:
+            email_list = []
+            email_list.append(each_email)
+
+            encoded_string = ("mid="+str(newMeeting.meetings_id)+"&eid="+each_email).encode('base64', 'strict')
+
+            msg = Message("Invitation to schedule a meeting with " + user_name,
                 sender=USERNAME,
-                recipients=event_dict['recipients'],
-                cc = email_list)
-        msg.body = "hello"
-        msg.html = "Hey!<br/><br/>"+user_name+ " has scheduled a meeting called " + event_name + " for either of the dates: " + suggested_date+".<br/> You can confirm your availability via sd.vishnuprem.com. Its very simple to do so with a single click google login and we will schedule a time for you to meet<br/><br/>You will be notifed with the confirmed date/time when everyone submits -  as simple as that :) Thanks!"
-        mail.send(msg)
+                recipients=email_list)
+            msg.body = "hello"
+            msg.html = "Hey!<br/><br/>"+user_name+ " has scheduled a meeting called " + event_name + " for either of the dates: " + suggested_date+".<br/><br/> You can confirm your availability via sd.vishnuprem.com/static/calender.html?pid="+encoded_string+". Its very simple to do so with a single click google login and we will schedule a time for you to meet<br/><br/>You will be notifed with the confirmed date/time when everyone submits -  as simple as that :) Thanks!"
+            mail.send(msg)
+
+        
         #session['meeting_id'] = newMeeting.meetings_id
         return 'Post meeting added successfully'
     return 'Please login successfully'
@@ -129,16 +153,27 @@ def get_admin_details():
     return result
 
 
-@app.route('/schedule/<int:meeting_id>', methods=['GET', 'POST'])
+@app.route('/schedule/<meeting_id>', methods=['GET', 'POST'])
 def manage_user_schedule(meeting_id):
     val = 0
     if 'creator_id' in session:
         creator_id = session['creator_id']
     else:
         creator_id = 0
-        return '0'
 
     has_submitted = 0
+    meeting_id += '==='
+    decoded_string = meeting_id.decode('base64', 'strict')
+    decoded_list = decoded_string.split('&',1)
+    meeting_id = decoded_list[0][4:]
+    email = decoded_list[1][4:]
+    pprint("meeting id is "+meeting_id)
+    pprint("email is "+email)
+
+    if creator_id == 0:
+        #person is coming in via email
+        find_user = User.query.filter_by(email = email).first()
+        creator_id = find_user.user_id
 
     if creator_id != 0:
         does_schedule_exist = Schedule.query.filter_by(user_id = creator_id, meeting_id = meeting_id).all()
@@ -237,11 +272,29 @@ def call_google_oauth():
 def row2dict(row):
     d = {}
     for column in row.__table__.columns:
-        #if column.name is 'event_recipients':
-        #loc    d[column.name] = row.event_recipients.split(',')        
-            #continue
+        if column.name is 'meetings_id':
+            user_id = session['creator_id']
+            existing_users = User.query.filter_by(user_id = user_id).first()
+            email = existing_users.email
+            encoded_string = ("mid="+str(row.meetings_id)+"&eid="+email).encode('base64', 'strict')
+            d[column.name] = encoded_string
+            continue
         d[column.name] = getattr(row, column.name)
         
     return d
+
+def row2dict1(row, user_id):
+    d = {}
+    for column in row.__table__.columns:
+        if column.name is 'meetings_id':
+            existing_users = User.query.filter_by(user_id = user_id).first()
+            email = existing_users.email
+            encoded_string = ("mid="+str(row.meetings_id)+"&eid="+email).encode('base64', 'strict')
+            d[column.name] = encoded_string
+            continue
+        d[column.name] = getattr(row, column.name)
+        
+    return d
+
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
