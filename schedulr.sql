@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.7
+-- version 4.0.4
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 27, 2013 at 04:11 PM
--- Server version: 5.5.32
--- PHP Version: 5.3.27
+-- Generation Time: Oct 12, 2013 at 10:32 AM
+-- Server version: 5.5.31
+-- PHP Version: 5.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `schedulr`
 --
+CREATE DATABASE IF NOT EXISTS `schedulr` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `schedulr`;
 
 -- --------------------------------------------------------
 
@@ -30,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `meetings` (
   `meetings_id` int(11) NOT NULL AUTO_INCREMENT,
   `creator_id` int(11) NOT NULL,
   `event_recipients` varchar(255) NOT NULL,
+  `meeting_size` int(11) NOT NULL,
   `event_name` varchar(255) NOT NULL,
   `event_venue` varchar(255) NOT NULL,
   `suggested_date` text NOT NULL,
@@ -37,10 +40,11 @@ CREATE TABLE IF NOT EXISTS `meetings` (
   `duration` int(11) NOT NULL,
   `finalized_date` varchar(255) NOT NULL,
   `finalized_time` varchar(255) NOT NULL,
+  `count_logged_in` int(11) NOT NULL,
   PRIMARY KEY (`meetings_id`),
   KEY `id` (`meetings_id`),
   KEY `creator_id` (`creator_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=39 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=58 ;
 
 -- --------------------------------------------------------
 
@@ -60,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `schedule` (
   KEY `id_2` (`schedule_id`),
   KEY `user_id` (`user_id`),
   KEY `meeting_id` (`meeting_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=54 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=181 ;
 
 -- --------------------------------------------------------
 
@@ -75,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `email` varchar(255) NOT NULL,
   PRIMARY KEY (`user_id`),
   KEY `id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
 
 --
 -- Constraints for dumped tables
